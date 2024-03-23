@@ -35,7 +35,12 @@ namespace loginproto
             //Assign variable to a new instance of popupwindow passing the textboxes with the first name and last name
             var popup = new PopupWindow(fTxtB.Text.ToString(), lTxtB.Text.ToString());
 
+            if(popup.Valid == 1)
+            {
+                var logout = new LogoutWindow();
 
+                Close();
+            }
         }
     }
 }

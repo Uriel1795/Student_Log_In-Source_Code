@@ -27,6 +27,7 @@ namespace loginproto
     {
 
         private string dropboxPath = "";
+        private int valid = 0;
 
         public PopupWindow(string firstName, string lastName)
         {
@@ -42,9 +43,14 @@ namespace loginproto
             set { dropboxPath = value; }
         }
 
+        public int Valid
+        {
+            get { return valid; }
+            set { valid = value; }
+        }
+
         public void PopulateNamesList(string firstName, string lastName, ViewModel viewModel)
         {
-
             List<string> foundNames = new List<string>();
 
             string searchPattern = $"{firstName.ToLower()}.{lastName.ToLower()}";
@@ -66,11 +72,12 @@ namespace loginproto
 
                     DriveSettings.MapNetworkDrive("R", mapPath);
 
-                    MessageBoxResult result = MessageBox.Show("Login successful. Click OK to exit the application.", "Success", MessageBoxButton.OK);
+                    MessageBoxResult result = MessageBox.Show("Login successful.", "Success", MessageBoxButton.OK);
 
                     if (result == MessageBoxResult.OK)
                     {
-                        Application.Current.Shutdown();
+                        Valid = 1;
+                        Close();
                     }
                 }
                 catch(Exception ex) 

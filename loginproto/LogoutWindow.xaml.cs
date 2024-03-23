@@ -102,7 +102,7 @@ namespace loginproto
         {
             DriveSettings.DisconnectNetworkDrive("R", true);
 
-            MessageBox.Show("You have been logged out");
+            MessageBox.Show("You have been logged out. Please allow a few seconds for the drive to be disconnected.");
         }
 
         private void ShutdownApplication()

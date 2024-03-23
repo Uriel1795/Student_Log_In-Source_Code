@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:loginproto"
         mc:Ignorable="d"
         Title="PopupWindow" Height="300" Width="180"
+        Icon="/loginproto;component/Resources/Images/logo.ico"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize">  
     <Window.Resources>

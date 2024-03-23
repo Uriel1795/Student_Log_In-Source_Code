@@ -59,6 +59,13 @@ namespace loginproto
             if (remainingTimeInSeconds <= 0)
             {
                 logoutTimer.Stop();
+
+                DisconnectMappedDrive();
+
+                Dispatcher.Invoke(() =>
+                {
+                    ShutdownApplication();
+                });
             }
             else
             {
@@ -73,18 +80,6 @@ namespace loginproto
         {
             TimeSpan timeSpan = TimeSpan.FromSeconds(remainingTimeInSeconds);
             countdownText.Text = timeSpan.ToString(@"hh\:mm\:ss");
-        }
-        private void LogoutTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            // Log out the user after timeout
-            Dispatcher.Invoke(() =>
-            {
-                // Perform logout logic here...
-                DisconnectMappedDrive();
-
-                //Shutdown applicaton
-                ShutdownApplication();
-            });
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
@@ -101,8 +96,6 @@ namespace loginproto
         private void DisconnectMappedDrive()
         {
             DriveSettings.DisconnectNetworkDrive("R", true);
-
-            MessageBox.Show("You have been logged out. Please allow a few seconds for the drive to be disconnected.");
         }
 
         private void ShutdownApplication()
@@ -114,6 +107,8 @@ namespace loginproto
         {
             // Handle logout button click event
             DisconnectMappedDrive();
+
+            MessageBox.Show("You have been logged out. Please allow a few seconds for the drive to be disconnected.");
 
             //Shutdown applicaton
             ShutdownApplication();

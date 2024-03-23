@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:loginproto"
         mc:Ignorable="d"
         Title="Log In" Height="250" Width="275"
+        Icon="/loginproto;component/Resources/Images/logo.ico"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize">
     <Grid x:Name="logInWindow" ShowGridLines="False">

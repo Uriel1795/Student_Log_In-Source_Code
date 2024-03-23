@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -43,11 +44,12 @@ namespace loginproto
 
         public void PopulateNamesList(string firstName, string lastName, ViewModel viewModel)
         {
+
             List<string> foundNames = new List<string>();
 
-            string searchPattern = $"{firstName}.{lastName}";
+            string searchPattern = $"{firstName.ToLower()}.{lastName.ToLower()}";
 
-            DropboxPath = @"\\" + Environment.MachineName + "\\Users\\" + Environment.UserName + "\\Robot Revolution Dropbox\\";
+            DropboxPath = @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Robot Revolution Dropbox\\students\\summit\\";
 
             string[] dirs = Directory.GetDirectories(DropboxPath, $"{searchPattern}");
 
@@ -59,11 +61,17 @@ namespace loginproto
             {   
                 try
                 {
-                    var mapPath = DropboxPath + searchPattern;
+                    var mapPath = @"\\" + Environment.MachineName + "\\Users\\" + Environment.UserName + 
+                        "\\Robot Revolution Dropbox\\students\\summit\\" + searchPattern;
 
-                    MessageBox.Show(DropboxPath);
+                    DriveSettings.MapNetworkDrive("R", mapPath);
 
-                    NetworkDriveAPI.MapNetworkDrive("R",mapPath, Environment.UserName, "");
+                    MessageBoxResult result = MessageBox.Show("Login successful. Click OK to exit the application.", "Success", MessageBoxButton.OK);
+
+                    if (result == MessageBoxResult.OK)
+                    {
+                        Application.Current.Shutdown();
+                    }
                 }
                 catch(Exception ex) 
                 {
@@ -82,18 +90,19 @@ namespace loginproto
                     {
                         mDir = dir.Trim().Replace(DropboxPath, "").Replace('.', ' ');
 
-                        mDir = textInfo.ToTitleCase(mDir.ToLower());
-
-                        string[] splitName = mDir.Split(' ');
+                        string[] splitName = textInfo.ToTitleCase(mDir.ToLower()).Split(' ');
 
                         viewModel.AddStudent(splitName[0], splitName[1]);
                     }
 
                     Show();
                 }
+                else
+                {
+                    MessageBox.Show("Student could not be found.");
+                    Close();
+                }
             }
-
-            //return false;
         }
         private void listBoxNames_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

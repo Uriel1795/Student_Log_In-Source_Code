@@ -1,91 +1,109 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 
-namespace loginproto
+public class DriveSettings
 {
-    public class NetworkDriveAPI
+    private enum ResourceScope
     {
-        [DllImport("mpr.dll")]
-        private static extern int WNetAddConnection2A(ref NetResource netResource, string password, string username, int flags);
+        RESOURCE_CONNECTED = 1,
+        RESOURCE_GLOBALNET,
+        RESOURCE_REMEMBERED,
+        RESOURCE_RECENT,
+        RESOURCE_CONTEXT
+    }
+    private enum ResourceType
+    {
+        RESOURCETYPE_ANY,
+        RESOURCETYPE_DISK,
+        RESOURCETYPE_PRINT,
+        RESOURCETYPE_RESERVED
+    }
+    private enum ResourceUsage
+    {
+        RESOURCEUSAGE_CONNECTABLE = 0x00000001,
+        RESOURCEUSAGE_CONTAINER = 0x00000002,
+        RESOURCEUSAGE_NOLOCALDEVICE = 0x00000004,
+        RESOURCEUSAGE_SIBLING = 0x00000008,
+        RESOURCEUSAGE_ATTACHED = 0x00000010
+    }
+    private enum ResourceDisplayType
+    {
+        RESOURCEDISPLAYTYPE_GENERIC,
+        RESOURCEDISPLAYTYPE_DOMAIN,
+        RESOURCEDISPLAYTYPE_SERVER,
+        RESOURCEDISPLAYTYPE_SHARE,
+        RESOURCEDISPLAYTYPE_FILE,
+        RESOURCEDISPLAYTYPE_GROUP,
+        RESOURCEDISPLAYTYPE_NETWORK,
+        RESOURCEDISPLAYTYPE_ROOT,
+        RESOURCEDISPLAYTYPE_SHAREADMIN,
+        RESOURCEDISPLAYTYPE_DIRECTORY,
+        RESOURCEDISPLAYTYPE_TREE,
+        RESOURCEDISPLAYTYPE_NDSCONTAINER
+    }
+    [StructLayout(LayoutKind.Sequential)]
+    private struct NETRESOURCE
+    {
+        public ResourceScope oResourceScope;
+        public ResourceType oResourceType;
+        public ResourceDisplayType oDisplayType;
+        public ResourceUsage oResourceUsage;
+        public string sLocalName;
+        public string sRemoteName;
+        public string sComments;
+        public string sProvider;
+    }
+    [DllImport("mpr.dll")]
+    private static extern int WNetAddConnection2(ref NETRESOURCE oNetworkResource, string sPassword, string sUserName, int iFlags);
 
-        [DllImport("mpr.dll")]
-        private static extern int WNetCancelConnection2A(string name, int flags, bool force);
+    [DllImport("mpr.dll")]
+    private static extern int WNetCancelConnection2(string sLocalName, uint iFlags, int iForce);
 
-        [StructLayout(LayoutKind.Sequential)]
-        public class NetResource
+    public static void MapNetworkDrive(string sDriveLetter, string sNetworkPath)
+    {
+        //Checks if the last character is \ as this causes error on mapping a drive.
+        if (sNetworkPath.Substring(sNetworkPath.Length - 1, 1) == @"\")
         {
-            public int Scope;
-            public int Type;
-            public int DisplayType;
-            public int Usage;
-            public string LocalName;
-            public string RemoteName;
-            public string Comment;
-            public string Provider;
+            sNetworkPath = sNetworkPath.Substring(0, sNetworkPath.Length - 1);
         }
 
-        // Map a network drive
-        public static int MapNetworkDrive(string driveLetter, string networkPath, string username, string password)
+        NETRESOURCE oNetworkResource = new NETRESOURCE();
+        oNetworkResource.oResourceType = ResourceType.RESOURCETYPE_DISK;
+        oNetworkResource.sLocalName = sDriveLetter + ":";
+        oNetworkResource.sRemoteName = sNetworkPath;
+
+        //If Drive is already mapped disconnect the current mapping before adding the new mapping
+        if (IsDriveMapped(sDriveLetter))
         {
-            NetResource netResource = new NetResource
-            {
-                Scope = 2,
-                Type = 1,
-                DisplayType = 0,
-                Usage = 0,
-                LocalName = driveLetter + ":",
-                RemoteName = networkPath,
-                Provider = null
-            };
-
-            int result = WNetAddConnection2A(ref netResource, password, username, 0);
-
-            return result;
+            DisconnectNetworkDrive(sDriveLetter, true);
         }
 
-        // Unmap a network drive
-        public static int UnmapNetworkDrive(string driveLetter)
+        WNetAddConnection2(ref oNetworkResource, null, null, 0);
+
+    }
+
+    public static int DisconnectNetworkDrive(string sDriveLetter, bool bForceDisconnect)
+    {
+        if (bForceDisconnect)
         {
-            int result = WNetCancelConnection2A(driveLetter + ":", 0, true);
-            return result;
+            return WNetCancelConnection2(sDriveLetter + ":", 0, 1);
         }
-
-        // Get the path to My Computer
-        public static string GetMyComputerPath()
+        else
         {
-            // The path to My Computer
-            return "::{20D04FE0-3AEA-1069-A2D8-08002B30309D}";
-        }
-
-        // Create a new drive
-        public static string CreateNewDrive()
-        {
-            // Logic to create a new drive goes here
-            // For demonstration purposes, let's assume we create a new folder in the root directory of C: drive
-            try
-            {
-                string newDriveLetter = "R"; // For example, you can use any available drive letter
-
-                // Path for the new drive (assuming C: for demonstration)
-                string newDrivePath = System.IO.Path.Combine("C:\\", "NewDrive");
-
-                // Create the directory
-                System.IO.Directory.CreateDirectory(newDrivePath);
-
-                // Optionally, you might want to use ManagementObject to map this directory as a new drive
-                MapNetworkDrive(newDriveLetter, newDrivePath, null, null);
-
-                return newDriveLetter;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error creating new drive: {ex.Message}");
-                return null;
-            }
+            return WNetCancelConnection2(sDriveLetter + ":", 0, 0);
         }
     }
+
+    public static bool IsDriveMapped(string sDriveLetter)
+    {
+        string[] DriveList = Environment.GetLogicalDrives();
+        for (int i = 0; i < DriveList.Length; i++)
+        {
+            if (sDriveLetter + ":\\" == DriveList[i].ToString())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

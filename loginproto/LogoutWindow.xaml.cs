@@ -59,8 +59,6 @@ namespace loginproto
             if (remainingTimeInSeconds <= 0)
             {
                 logoutTimer.Stop();
-                MessageBox.Show("You have been logged out.");
-                Close();
             }
             else
             {

@@ -1,0 +1,28 @@
+﻿<Window x:Class="loginproto.PopupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:loginproto"
+        mc:Ignorable="d"
+        Title="PopupWindow" Height="300" Width="300">
+
+    <Window.Resources>
+        <!-- Define DataTemplate for displaying full name -->
+        <DataTemplate x:Key="FullNameTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding FirstName}" FontWeight="Bold" Foreground="Blue"/>
+                <TextBlock Text=" " />
+                <TextBlock Text="{Binding LastName}" FontWeight="Bold" Foreground="Green"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- Define a DataTemplateSelector to choose appropriate template based on item's type -->
+        <local:NameTemplateSelector x:Key="NameTemplateSelector" FullNameTemplate="{StaticResource FullNameTemplate}"/>
+    </Window.Resources>
+
+    <Grid>
+        <!-- ListBox bound to a collection of objects with FirstName and LastName properties -->
+        <ListBox x:Name="listBoxNames" ItemsSource="{Binding Names}" ItemTemplateSelector="{StaticResource NameTemplateSelector}" MouseDoubleClick="listBoxNames_MouseDoubleClick" />
+    </Grid>
+</Window>

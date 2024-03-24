@@ -5,20 +5,52 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "loginproto", "loginproto\loginproto.csproj", "{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AppSetup", "AppSetup\AppSetup.vdproj", "{4751205E-92D6-4616-AB70-A2D4F129EFD5}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Student Log In", "Student Log In\Student Log In.vdproj", "{B79A2FD3-2728-4CC6-9121-E406AF3ED552}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		All|Any CPU = All|Any CPU
+		All|x86 = All|x86
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		DefaultBuild|Any CPU = DefaultBuild|Any CPU
+		DefaultBuild|x86 = DefaultBuild|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+		Student Log In|Any CPU = Student Log In|Any CPU
+		Student Log In|x86 = Student Log In|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.All|Any CPU.Build.0 = Release|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.All|x86.ActiveCfg = Release|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.All|x86.Build.0 = Release|Any CPU
 		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Debug|x86.Build.0 = Debug|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.DefaultBuild|x86.ActiveCfg = Debug|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.DefaultBuild|x86.Build.0 = Debug|Any CPU
 		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4751205E-92D6-4616-AB70-A2D4F129EFD5}.Debug|Any CPU.ActiveCfg = Debug
-		{4751205E-92D6-4616-AB70-A2D4F129EFD5}.Release|Any CPU.ActiveCfg = Release
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Release|x86.ActiveCfg = Release|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Release|x86.Build.0 = Release|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Student Log In|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Student Log In|Any CPU.Build.0 = Debug|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Student Log In|x86.ActiveCfg = Release|Any CPU
+		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Student Log In|x86.Build.0 = Release|Any CPU
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.All|Any CPU.ActiveCfg = Debug
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.All|x86.ActiveCfg = Debug
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Debug|Any CPU.ActiveCfg = Debug
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Debug|x86.ActiveCfg = Debug
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.DefaultBuild|Any CPU.ActiveCfg = Debug
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.DefaultBuild|x86.ActiveCfg = Debug
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Release|Any CPU.ActiveCfg = Release
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Release|x86.ActiveCfg = Release
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Student Log In|Any CPU.ActiveCfg = Release
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Student Log In|x86.ActiveCfg = Debug
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

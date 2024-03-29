@@ -22,6 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.3.0" />
+    <PackageReference Include="Dropbox.Api" Version="6.37.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\Images\logo.ico" />
     <Resource Include="Resources\Images\logo.png" />
   </ItemGroup>

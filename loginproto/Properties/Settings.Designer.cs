@@ -22,5 +22,14 @@ namespace loginproto.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Software\\Robot Revolution\\Student Log In")]
+        public string registryPath {
+            get {
+                return ((string)(this["registryPath"]));
+            }
+        }
     }
 }

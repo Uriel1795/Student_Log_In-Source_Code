@@ -9,17 +9,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace loginproto
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         public MainWindow()
         {
             InitializeComponent();
+
+            // Check if the registry key exists
+            RegistryHelper.CreateRegistry(Properties.Settings.Default.registryPath);
         }
 
         //Click on the login button
@@ -35,11 +39,27 @@ namespace loginproto
             //Assign variable to a new instance of popupwindow passing the textboxes with the first name and last name
             var popup = new PopupWindow(fTxtB.Text.ToString(), lTxtB.Text.ToString());
 
-            if(popup.Valid == 1)
+            if (popup.Valid == 1)
             {
                 var logout = new LogoutWindow();
 
                 Close();
+            }
+        }
+
+        //Click on the Admin Mode button
+        private void AdminMode_Click(object sender, RoutedEventArgs e)
+        {
+            InputWindow inputWindow = new InputWindow(Application.Current.MainWindow);
+
+            if (inputWindow.ShowDialog() == true)
+            {
+                string userInput = inputWindow.UserInput;
+            }
+            else
+            {
+                MessageBox.Show("Operation cancelled.");
+
             }
         }
     }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:loginproto"
         mc:Ignorable="d"
-        Title="Log In" Height="250" Width="275"
+        Title="Log In" Height="260" Width="275"
         Icon="/loginproto;component/Resources/Images/logo.ico"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize">
@@ -15,18 +15,27 @@
             <ColumnDefinition Width="175"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25" ></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Content="First Name" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" FontSize="16"/>
+        <Menu x:Name="adminMenuItem"  Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Width="109">
+            <MenuItem Header="_Admin Mode" FontSize="16" Click="AdminMode_Click">
+            </MenuItem>
+        </Menu>
 
-        <TextBox x:Name="fTxtB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Width="136" FontSize="16" MaxLines="1" MaxLength="15"/>
-        <Label Content="Last Name" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" FontSize="16"/>
-        <TextBox x:Name="lTxtB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Width="136" FontSize="16" MaxLines="1" MaxLength="15"/>
-        <Button Content="Log In" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" FontSize="16" Margin="15,0,0,0" Click="Button_Click"/>
-        <Image Margin="44,10,43,10" Source="/Resources/Images/logo.png" Stretch="Fill" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,-0.612"/>
+        <Border Grid.Row="1" Grid.Column="0" BorderThickness="0,.2,0,0" BorderBrush="Black"/>
+        <Border Grid.Row="1" Grid.Column="2" BorderThickness="0,.2,0,0" BorderBrush="Black"/>
+
+        <Label Content="First Name" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" FontSize="16"/>
+
+        <TextBox x:Name="fTxtB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" Width="136" FontSize="16" MaxLines="1" MaxLength="15"/>
+        <Label Content="Last Name" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" FontSize="16"/>
+        <TextBox x:Name="lTxtB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Grid.Row="3" Grid.Column="2" Width="136" FontSize="16" MaxLines="1" MaxLength="15"/>
+        <Button Content="Log In" Grid.Row="4" Width="60"  HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" FontSize="16" Margin="12,0,0,0" Click="Button_Click"/>
+        <Image Margin="44,14,43,6" Source="/Resources/Images/logo.png" Stretch="Fill" Grid.Row="1" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,-0.612"/>
     </Grid>
 </Window>

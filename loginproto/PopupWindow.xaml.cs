@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 using Path = System.IO.Path;
 
 namespace loginproto
@@ -26,8 +27,9 @@ namespace loginproto
     public partial class PopupWindow : Window
     {
 
-        private string dropboxPath = "";
+        private string dropboxPath = string.Empty;
         private int valid = 0;
+        private string mapPath = string.Empty; 
 
         public PopupWindow(string firstName, string lastName)
         {
@@ -43,6 +45,12 @@ namespace loginproto
             set { dropboxPath = value; }
         }
 
+        public string MapPath
+        {
+            get { return MapPath; }
+            set { dropboxPath = value; }
+        }
+
         public int Valid
         {
             get { return valid; }
@@ -55,7 +63,7 @@ namespace loginproto
 
             string searchPattern = $"{firstName.ToLower()}.{lastName.ToLower()}";
 
-            DropboxPath = @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Robot Revolution Dropbox\\students\\summit\\";
+            DropboxPath = RegistryHelper.GetRegistryValue("DropboxPath");
 
             string[] dirs = Directory.GetDirectories(DropboxPath, $"{searchPattern}");
 
@@ -67,10 +75,9 @@ namespace loginproto
             {   
                 try
                 {
-                    var mapPath = @"\\" + Environment.MachineName + "\\Users\\" + Environment.UserName + 
-                        "\\Robot Revolution Dropbox\\students\\summit\\" + searchPattern;
+                    MapPath = RegistryHelper.GetRegistryValue("MapPath");
 
-                    DriveSettings.MapNetworkDrive("R", mapPath);
+                    DriveSettings.MapNetworkDrive("R", MapPath);
 
                     MessageBoxResult result = MessageBox.Show("Login successful.", "Success", MessageBoxButton.OK);
 

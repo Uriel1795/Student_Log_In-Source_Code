@@ -1,45 +1,34 @@
 ﻿<Window x:Class="loginproto.AdminModeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
-        Title="Dropbox File Explorer" Height="450" Width="600">
+        Title="Admin Mode" Height="450" Width="800"
+        Loaded="AdminModeWindow_Loaded">
     <Grid>
-        <!-- Header -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Dropbox File Explorer" FontSize="20" Margin="10"/>
-
-        <!-- File Explorer -->
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <!-- Folder TreeView -->
-            <TreeView Grid.Column="0" Name="folderTreeView" Margin="10"/>
-
-            <!-- File List -->
-            <ListView Grid.Column="1" Name="fileListView" Margin="10">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                        <GridViewColumn Header="Size" DisplayMemberBinding="{Binding Size}" Width="100"/>
-                        <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" Width="100"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </Grid>
-
-        <!-- Status Bar -->
-        <StatusBar Grid.Row="2" Name="statusBar" Height="30" Margin="10">
-            <StatusBarItem>
-                <TextBlock Text="Status: "/>
-            </StatusBarItem>
-            <StatusBarItem>
-                <TextBlock Name="statusText"/>
-            </StatusBarItem>
-        </StatusBar>
+        <ItemsControl x:Name="FoldersItemsControl">
+            <!-- Define the layout of items using ItemsPanel -->
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <!-- Define how each item should look using ItemTemplate -->
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="#EEE" CornerRadius="5" Padding="10" Margin="5">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <Image Width="50" Height="50" Source="{Binding Thumbnail}" />
+                            <TextBlock Text="{Binding Name}" Margin="5,10,5,0" TextAlignment="Center" />
+    
+                            <StackPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Rename" Command="{Binding DataContext.RenameCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" />
+                                    <MenuItem Header="Delete" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" />
+                                </ContextMenu>
+                            </StackPanel.ContextMenu>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Window>

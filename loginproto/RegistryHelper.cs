@@ -12,8 +12,6 @@ namespace loginproto
     {
         public static void CreateRegistry(string registryPath)
         {
-            string endPath = "\\Robot Revolution Dropbox\\students\\summit\\";
-
             try
             {
                 // Use the registryPath property to get the registry path
@@ -25,17 +23,25 @@ namespace loginproto
                     parentKey = Registry.CurrentUser.CreateSubKey(registryPath);
                 }
 
+                parentKey.SetValue("EndPath", "\\Robot Revolution Dropbox\\students\\summit\\");
+
                 parentKey.SetValue("DropboxPath",
                     @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + 
-                    endPath);
+                    GetRegistryValue("EndPath"));
 
                 parentKey.SetValue("MapPath",
                     @"\\" + Environment.MachineName + "\\Users\\" + Environment.UserName + 
-                    endPath);
+                    GetRegistryValue("EndPath"));
+
+                parentKey.SetValue("Apikey", "l52k5711oq6mdqp");
+
+                parentKey.SetValue("ApiSecret", "y8q41ic4wy8qtpi");
+
+                parentKey.SetValue("RedirectUri", "https://uriel1795.github.io");
 
                 // Check if the key already exists
 
-                if(!parentKey.GetValueNames().Contains("Admin"))
+                if (!parentKey.GetValueNames().Contains("Admin"))
                 {
                     parentKey.SetValue("Admin", "");
                 }
@@ -46,11 +52,11 @@ namespace loginproto
             }
         }
 
-        public static string GetRegistryValue(string path, string registryName)
+        public static string GetRegistryValue(string registryName)
         {
             try
             {
-                using (var key = Registry.CurrentUser.OpenSubKey(path))
+                using (var key = Registry.CurrentUser.OpenSubKey(Properties.Settings.Default.registryPath))
                 {
                     if (key != null)
                     {

@@ -19,12 +19,19 @@ namespace loginproto
     /// <summary>
     /// Interaction logic for InputWindow.xaml
     /// </summary>
+    public enum InputType
+    {
+        Validation,
+        ResponseUri
+    }
+
     public partial class InputWindow : Window
     {
+        private readonly InputType inputType;
+        private string registryPath = Properties.Settings.Default.registryPath;
         public string UserInput
         {
-            get;
-            private set;
+            get; private set; 
         }
 
         public Window MainWindowReference
@@ -33,10 +40,22 @@ namespace loginproto
             private set;
         }
 
-        public InputWindow(Window mainWindow)
+        public InputWindow(InputType inputType)
         {
             InitializeComponent();
-            MainWindowReference = mainWindow;
+            this.inputType = inputType;
+
+            if(inputType == InputType.Validation)
+            {
+                Title = "Admin Password";
+                windowLabel.Content = "Admin Password?";
+            }
+
+            if(inputType == InputType.ResponseUri) 
+            {
+                Title = "Uri";
+                windowLabel.Content = "Dropbox Uri?";
+            }
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)
@@ -44,36 +63,28 @@ namespace loginproto
             UserInput = inputTextBox.Text;
             DialogResult = true;
 
-            //Add the salt 4610 to the input
-            UserInput = UserInput + "4610";
-
-            //Hash the input + salt to sha3_512
-            byte[] bytes = Encoding.UTF8.GetBytes(UserInput);
-
-            var sha3 = new Sha3Digest(512);
-
-            sha3.BlockUpdate(bytes, 0, bytes.Length);
-            byte[] hashBytes = new byte[sha3.GetDigestSize()];
-            sha3.DoFinal(hashBytes, 0);
-
-            string hexString = BitConverter.ToString(hashBytes).Replace("-", "");
-
-            //Check if hash is the same as registry
-            var adminResult = RegistryHelper.AdminValidation(Properties.Settings.Default.registryPath, "Admin", hexString);
-
-            if (adminResult == 1)
+            if (inputType == InputType.Validation)
             {
-                MessageBox.Show("Verified");
+                //Add the salt 4610 to the input
+                UserInput += "4610";
 
-                //Open Admin window
-                var adminWindow = new AdminModeWindow();
-                MainWindowReference.Close();
-                adminWindow.Show();
+                //Hash the input + salt to sha3_512
+                byte[] bytes = Encoding.UTF8.GetBytes(UserInput);
+
+                var sha3 = new Sha3Digest(512);
+
+                sha3.BlockUpdate(bytes, 0, bytes.Length);
+                byte[] hashBytes = new byte[sha3.GetDigestSize()];
+                sha3.DoFinal(hashBytes, 0);
+
+                string hexString = BitConverter.ToString(hashBytes).Replace("-", "");
+
+                UserInput = hexString;
 
             }
-            else
+            if(inputType == InputType.ResponseUri) 
             {
-                MessageBox.Show("Please type the right password");
+                Close();
             }
         }
 

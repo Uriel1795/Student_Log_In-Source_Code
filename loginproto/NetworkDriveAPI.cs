@@ -53,7 +53,7 @@ public class DriveSettings
         public string sProvider;
     }
     [DllImport("mpr.dll")]
-    private static extern int WNetAddConnection2(ref NETRESOURCE oNetworkResource, string sPassword, string sUserName, int iFlags);
+    private static extern int WNetAddConnection2(ref NETRESOURCE oNetworkResource, string? sPassword, string? sUserName, int iFlags);
 
     [DllImport("mpr.dll")]
     private static extern int WNetCancelConnection2(string sLocalName, uint iFlags, int iForce);

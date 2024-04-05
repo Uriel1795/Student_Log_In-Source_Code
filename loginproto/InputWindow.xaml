@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize"
         Icon="/Resources/Images/logo.ico"
-        Title="Admin Password" Height="170" Width="250">
+        Title="" Height="170" Width="250">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Content="Admin Password?" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" FontSize="16"/>
+        <Label x:Name="windowLabel" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" FontSize="16"/>
         <TextBox x:Name="inputTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Grid.Row="1" FontSize="16"/>
         <Button Content="Cancel" Height="30" Width="75" Click="Cancel_Click" HorizontalAlignment="Left" Grid.Row="2" Margin="140,20,0,50" FontSize="16"/>
         <Button Content="OK" Height="30" Width="74" Click="OK_Click" HorizontalAlignment="Left" Grid.Row="2" Margin="25,20,0,50" FontSize="16"/>

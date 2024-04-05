@@ -16,7 +16,7 @@ namespace loginproto
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : System.Windows.Window
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
@@ -50,11 +50,29 @@ namespace loginproto
         //Click on the Admin Mode button
         private void AdminMode_Click(object sender, RoutedEventArgs e)
         {
-            InputWindow inputWindow = new InputWindow(Application.Current.MainWindow);
+            InputWindow inputWindow = new InputWindow(InputType.Validation);
 
             if (inputWindow.ShowDialog() == true)
             {
                 string userInput = inputWindow.UserInput;
+
+                //Check if hash is the same as registry
+                var adminResult =
+                RegistryHelper.AdminValidation(Properties.Settings.Default.registryPath, "Admin", userInput);
+
+                if (adminResult == 1)
+                {
+                    MessageBox.Show("Verified");
+
+                    //Open Admin window
+                    var adminWindow = new AdminModeWindow();
+                    Close();
+                    adminWindow.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Please type the right password");
+                }
             }
             else
             {

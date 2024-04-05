@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_281AF9E593A541FAAC6E0EB97C85D855"
+        "MsmKey" = "8:_7FDBD058F55047C8BBA026C1C4BFBB07"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -76,6 +76,16 @@
         {
             "LaunchCondition"
             {
+                "{A06ECF26-33A3-4562-8140-9B0E340D4F24}:_434F3FB8D6FD40489CA6B5CE5B91E571"
+                {
+                "Name" = "8:.NET Core"
+                "Message" = "8:[VSDNETCOREMSG]"
+                "AllowLaterVersions" = "11:FALSE"
+                "InstallUrl" = "8:https://dotnet.microsoft.com/download/dotnet-core/[NetCoreVerMajorDotMinor]"
+                "IsNETCore" = "11:TRUE"
+                "Architecture" = "2:0"
+                "Runtime" = "2:0"
+                }
             }
         }
         "File"
@@ -157,11 +167,11 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Student Log In"
         "ProductCode" = "8:{BA00558B-5324-4FB5-B1FA-DD53D05D1486}"
-        "PackageCode" = "8:{7B5F11E1-DAFB-4083-B19A-9AEEF8C8DAFA}"
+        "PackageCode" = "8:{255B4D6A-2AD7-4050-96AD-043AD83956F7}"
         "UpgradeCode" = "8:{BABAAB38-5B15-45AF-B634-E0BC3D67484B}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
@@ -277,7 +287,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_91A4907CE9E5463AAE309BD4EBF86C13"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_5211E4DBFAD14168ADC0D94634070ACA"
             {
             "Name" = "8:Student Log In"
             "Arguments" = "8:"
@@ -285,13 +295,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_281AF9E593A541FAAC6E0EB97C85D855"
-            "Folder" = "8:_B9A2B1D990744D7F9059D911233B6767"
+            "Target" = "8:_7FDBD058F55047C8BBA026C1C4BFBB07"
+            "Folder" = "8:_D10E010947454687A1602A679A2DA64D"
             "WorkingFolder" = "8:_FBA828C80822428CB444C4DCE416981E"
             "Icon" = "8:_8CD1D8E1418945C79F1BE7FBF2279ABF"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E60511D246B946BC8F27F3242D9AFA03"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_9D067DD79CEE40468028E35BE89B33C4"
             {
             "Name" = "8:Student Log In"
             "Arguments" = "8:"
@@ -299,8 +309,8 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_281AF9E593A541FAAC6E0EB97C85D855"
-            "Folder" = "8:_D10E010947454687A1602A679A2DA64D"
+            "Target" = "8:_7FDBD058F55047C8BBA026C1C4BFBB07"
+            "Folder" = "8:_B9A2B1D990744D7F9059D911233B6767"
             "WorkingFolder" = "8:_FBA828C80822428CB444C4DCE416981E"
             "Icon" = "8:_8CD1D8E1418945C79F1BE7FBF2279ABF"
             "Feature" = "8:"
@@ -704,7 +714,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_281AF9E593A541FAAC6E0EB97C85D855"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_7FDBD058F55047C8BBA026C1C4BFBB07"
             {
             "SourcePath" = "8:..\\loginproto\\obj\\Debug\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"

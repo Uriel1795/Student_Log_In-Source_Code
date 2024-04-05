@@ -28,7 +28,8 @@ namespace loginproto
             //If textbox is empty show message box
             if (fTxtB.Text.Length == 0 || lTxtB.Text.Length == 0)
             {
-                MessageBox.Show("Please type your full name", "Incomplete Name", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please type your full name", 
+                    "Incomplete Name", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 

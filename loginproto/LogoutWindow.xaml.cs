@@ -108,7 +108,8 @@ namespace loginproto
             // Handle logout button click event
             DisconnectMappedDrive();
 
-            MessageBox.Show("You have been logged out. Please allow a few seconds for the drive to be disconnected.");
+            MessageBox.Show("You have been logged out. Please allow a few seconds for the drive to be disconnected.", 
+                "Log Out", MessageBoxButton.OK, MessageBoxImage.Information);
 
             //Shutdown applicaton
             ShutdownApplication();

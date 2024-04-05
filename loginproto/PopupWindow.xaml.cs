@@ -59,8 +59,6 @@ namespace loginproto
 
             string[] dirs = Directory.GetDirectories(DropboxPath, $"{searchPattern}");
 
-            string mDir = "";
-
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 
             if (dirs.Length > 0)
@@ -72,7 +70,8 @@ namespace loginproto
 
                     DriveSettings.MapNetworkDrive("R", mapPath);
 
-                    MessageBoxResult result = MessageBox.Show("Login successful.", "Success", MessageBoxButton.OK);
+                    MessageBoxResult result = MessageBox.Show("Login successful.", 
+                        "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     if (result == MessageBoxResult.OK)
                     {
@@ -82,7 +81,8 @@ namespace loginproto
                 }
                 catch(Exception ex) 
                 {
-                    MessageBox.Show("Some Error " + ex);
+                    MessageBox.Show("Some Error " + ex, "Error", MessageBoxButton.OK, 
+                        MessageBoxImage.Stop);
                 }
             }
             else
@@ -95,7 +95,7 @@ namespace loginproto
                 {
                     foreach (var dir in dirs)
                     {
-                        mDir = dir.Trim().Replace(DropboxPath, "").Replace('.', ' ');
+                        string mDir = dir.Trim().Replace(DropboxPath, "").Replace('.', ' ');
 
                         string[] splitName = textInfo.ToTitleCase(mDir.ToLower()).Split(' ');
 
@@ -106,7 +106,8 @@ namespace loginproto
                 }
                 else
                 {
-                    MessageBox.Show("Student could not be found.");
+                    MessageBox.Show("Student could not be found.", 
+                        "Not found", MessageBoxButton.OK, MessageBoxImage.Warning);
                     Close();
                 }
             }
@@ -128,11 +129,13 @@ namespace loginproto
                 } 
                 catch (InvalidCastException ex)
                 {
-                    MessageBox.Show("Error: Unable to cast selected item to Student.\n" + ex.Message);
+                    MessageBox.Show("Error: Unable to cast selected item to Student.\n" + 
+                        ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Stop);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: " + ex.Message);
+                    MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButton.OK, 
+                        MessageBoxImage.Stop);
                 }
             }
         }

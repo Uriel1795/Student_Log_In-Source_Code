@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "loginproto", "loginproto\loginproto.csproj", "{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Student Log In", "Student Log In\Student Log In.vdproj", "{B79A2FD3-2728-4CC6-9121-E406AF3ED552}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Student Log In", "Student Log In\Student Log In.vdproj", "{B36D30CB-1034-47CC-AB34-E1714824B6B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,16 +41,16 @@ Global
 		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Student Log In|Any CPU.Build.0 = Debug|Any CPU
 		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Student Log In|x86.ActiveCfg = Release|Any CPU
 		{4D688013-EB66-4D7A-BB9C-8CEF9F366C29}.Student Log In|x86.Build.0 = Release|Any CPU
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.All|Any CPU.ActiveCfg = Debug
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.All|x86.ActiveCfg = Debug
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Debug|Any CPU.ActiveCfg = Debug
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Debug|x86.ActiveCfg = Debug
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.DefaultBuild|Any CPU.ActiveCfg = Debug
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.DefaultBuild|x86.ActiveCfg = Debug
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Release|Any CPU.ActiveCfg = Release
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Release|x86.ActiveCfg = Release
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Student Log In|Any CPU.ActiveCfg = Release
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Student Log In|x86.ActiveCfg = Debug
+		{B36D30CB-1034-47CC-AB34-E1714824B6B6}.All|Any CPU.ActiveCfg = Debug
+		{B36D30CB-1034-47CC-AB34-E1714824B6B6}.All|x86.ActiveCfg = Debug
+		{B36D30CB-1034-47CC-AB34-E1714824B6B6}.Debug|Any CPU.ActiveCfg = Debug
+		{B36D30CB-1034-47CC-AB34-E1714824B6B6}.Debug|x86.ActiveCfg = Debug
+		{B36D30CB-1034-47CC-AB34-E1714824B6B6}.DefaultBuild|Any CPU.ActiveCfg = Debug
+		{B36D30CB-1034-47CC-AB34-E1714824B6B6}.DefaultBuild|x86.ActiveCfg = Debug
+		{B36D30CB-1034-47CC-AB34-E1714824B6B6}.Release|Any CPU.ActiveCfg = Release
+		{B36D30CB-1034-47CC-AB34-E1714824B6B6}.Release|x86.ActiveCfg = Release
+		{B36D30CB-1034-47CC-AB34-E1714824B6B6}.Student Log In|Any CPU.ActiveCfg = Debug
+		{B36D30CB-1034-47CC-AB34-E1714824B6B6}.Student Log In|x86.ActiveCfg = Debug
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

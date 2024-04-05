@@ -55,7 +55,7 @@ namespace loginproto
 
             string searchPattern = $"{firstName.ToLower()}.{lastName.ToLower()}";
 
-            DropboxPath = @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Robot Revolution Dropbox\\students\\summit\\";
+            DropboxPath = @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Robot Revolution Dropbox\\code\\";
 
             string[] dirs = Directory.GetDirectories(DropboxPath, $"{searchPattern}");
 
@@ -68,7 +68,7 @@ namespace loginproto
                 try
                 {
                     var mapPath = @"\\" + Environment.MachineName + "\\Users\\" + Environment.UserName + 
-                        "\\Robot Revolution Dropbox\\students\\summit\\" + searchPattern;
+                        "\\Robot Revolution Dropbox\\code\\" + searchPattern;
 
                     DriveSettings.MapNetworkDrive("R", mapPath);
 

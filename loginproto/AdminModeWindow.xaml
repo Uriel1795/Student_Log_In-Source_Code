@@ -2,33 +2,37 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Admin Mode" Height="450" Width="800"
-        Loaded="AdminModeWindow_Loaded">
+        Loaded="AdminModeWindow_Loaded"
+        SizeChanged="AdminModeWindow_SizeChanged">
     <Grid>
-        <ItemsControl x:Name="FoldersItemsControl">
-            <!-- Define the layout of items using ItemsPanel -->
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <!-- Define how each item should look using ItemTemplate -->
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Background="#EEE" CornerRadius="5" Padding="10" Margin="5">
-                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <Image Width="50" Height="50" Source="{Binding Thumbnail}" />
-                            <TextBlock Text="{Binding Name}" Margin="5,10,5,0" TextAlignment="Center" />
-    
-                            <StackPanel.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Rename" Command="{Binding DataContext.RenameCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" />
-                                    <MenuItem Header="Delete" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" />
-                                </ContextMenu>
-                            </StackPanel.ContextMenu>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <!-- Wrap ItemsControl within a ScrollViewer -->
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="FoldersItemsControl">
+                <!-- Define the layout of items using ItemsPanel -->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="{Binding Path=NumberOfColumns}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <!-- Define how each item should look using ItemTemplate -->
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="#EEE" CornerRadius="5" Padding="10" Margin="5">
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                <Image Width="50" Height="50" Source="{Binding Thumbnail}" />
+                                <TextBlock Text="{Binding Name}" Margin="5,10,5,0" TextAlignment="Center" />
+
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Rename" Command="{Binding DataContext.RenameCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" />
+                                        <MenuItem Header="Delete" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}" />
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using Dropbox.Api;
+using Dropbox.Api.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +21,17 @@ namespace loginproto
 
         public ICommand RenameCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
+
+        // Add the following properties at the beginning of your AdminModeWindow class
+        public static readonly DependencyProperty NumberOfColumnsProperty =
+            DependencyProperty.Register(
+                "NumberOfColumns", typeof(int), typeof(AdminModeWindow), new PropertyMetadata(1));
+
+        public int NumberOfColumns
+        {
+            get { return (int)GetValue(NumberOfColumnsProperty); }
+            set { SetValue(NumberOfColumnsProperty, value); }
+        }
 
         public AdminModeWindow()
         {
@@ -85,9 +97,14 @@ namespace loginproto
 
             using (var dbx = new DropboxClient(accessToken))
             {
-                var list = await dbx.Files.ListFolderAsync("");
+                var accountInfo = await dbx.Users.GetCurrentAccountAsync();
 
-                MessageBox.Show(list.Entries.ToString());
+                MessageBox.Show(accountInfo.RootInfo.RootNamespaceId);
+
+                var db =
+                dbx.WithPathRoot(new PathRoot.NamespaceId(accountInfo.RootInfo.RootNamespaceId));
+
+                var list = await db.Files.ListFolderAsync("/code");
 
                 foreach (var item in list.Entries)
                 {
@@ -132,6 +149,20 @@ namespace loginproto
                 }
             }
             return null; // Return null or a default thumbnail if fetching fails
+        }
+
+        // Add the SizeChanged event handler
+        private void AdminModeWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            CalculateNumberOfColumns();
+        }
+
+        // Implement the CalculateNumberOfColumns method
+        private void CalculateNumberOfColumns()
+        {
+            var folderWidth = 120; // Adjust this value based on your folder item width, including margins
+            var columns = Math.Max(1, (int)(ActualWidth / folderWidth));
+            NumberOfColumns = columns;
         }
 
         private void OnRename(object param)

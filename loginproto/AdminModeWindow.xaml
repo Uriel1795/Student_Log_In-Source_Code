@@ -17,7 +17,8 @@
                 <!-- Define how each item should look using ItemTemplate -->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="#EEE" CornerRadius="5" Padding="10" Margin="5">
+                        <Border Background="#EEE" CornerRadius="5" Padding="10" Margin="5"
+                                MouseLeftButtonDown="Border_MouseLeftButtonDown">
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                 <Image Width="50" Height="50" Source="{Binding Thumbnail}" />
                                 <TextBlock Text="{Binding Name}" Margin="5,10,5,0" TextAlignment="Center" />

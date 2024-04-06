@@ -2,12 +2,14 @@
 using Dropbox.Api.Common;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static Dropbox.Api.Team.DesktopPlatform;
 using static Dropbox.Api.TeamLog.EventCategory;
@@ -26,6 +28,9 @@ namespace loginproto
         public static readonly DependencyProperty NumberOfColumnsProperty =
             DependencyProperty.Register(
                 "NumberOfColumns", typeof(int), typeof(AdminModeWindow), new PropertyMetadata(1));
+
+        // Add a field to keep track of the previously selected Border
+        private Border _previouslySelectedBorder = null;
 
         public int NumberOfColumns
         {
@@ -64,6 +69,9 @@ namespace loginproto
 
                 // Use the access token to fetch and display folders
                 var folders = await FetchFoldersAsync(tokenResponse.AccessToken);
+
+                ConfigurationManager.AppSettings["accessToken"] = tokenResponse.AccessToken;
+
                 FoldersItemsControl.ItemsSource = folders;
             }
             catch (Exception ex)
@@ -87,42 +95,36 @@ namespace loginproto
                 authorizationCode = inputWindow.UserInput;
             }
 
-            
             return authorizationCode;
         }
 
-        private async Task<List<FolderViewModel>> FetchFoldersAsync(string accessToken)
+        private async Task<List<FolderViewModel>> FetchFoldersAsync()
         {
             var items = new List<FolderViewModel>();
 
-            using (var dbx = new DropboxClient(accessToken))
+            var db = DropboxConnector.Connector();
+
+            var list = await db.Files.ListFolderAsync("/code");
+
+            foreach (var item in list.Entries)
             {
-                var accountInfo = await dbx.Users.GetCurrentAccountAsync();
+                BitmapImage thumbnail = null;
 
-                MessageBox.Show(accountInfo.RootInfo.RootNamespaceId);
-
-                var db =
-                dbx.WithPathRoot(new PathRoot.NamespaceId(accountInfo.RootInfo.RootNamespaceId));
-
-                var list = await db.Files.ListFolderAsync("/code");
-
-                foreach (var item in list.Entries)
+                if (!item.IsFolder)
                 {
-                    BitmapImage thumbnail = null;
-
-                    if (!item.IsFolder)
-                    {
-                        thumbnail = await FetchThumbnailAsync(dbx, item.PathDisplay);
-                    }
-
-                    items.Add(new FolderViewModel
-                    {
-                        Name = item.Name,
-                        Thumbnail = 
-                        thumbnail ?? new BitmapImage(new Uri("pack://application:,,,/Resources/Images/folder-icon.png", UriKind.RelativeOrAbsolute)),
-                    });
+                    thumbnail = await FetchThumbnailAsync(db, item.PathDisplay);
                 }
+
+                items.Add(new FolderViewModel
+                {
+                    Name = item.Name,
+                    Thumbnail = 
+                    thumbnail ?? new BitmapImage(new Uri("pack://application:,,,/Resources/Images/folder-icon.png", UriKind.RelativeOrAbsolute)),
+                });
             }
+
+            items = items.OrderBy(i => i.Name).ToList();
+
             return items;
         }
 
@@ -170,6 +172,7 @@ namespace loginproto
             var item = param as FolderViewModel;
             if (item != null)
             {
+
                 // Implement your renaming logic here
                 MessageBox.Show($"Rename: {item.Name}");
             }
@@ -186,5 +189,25 @@ namespace loginproto
             }
         }
 
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Cast the sender to a Border
+            var selectedBorder = sender as Border;
+
+            if (selectedBorder != null)
+            {
+                // Change the background of the previously selected item back to normal
+                if (_previouslySelectedBorder != null)
+                {
+                    _previouslySelectedBorder.Background = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE)); // #EEE
+                }
+
+                // Highlight the selected item by changing its background color
+                selectedBorder.Background = new SolidColorBrush(Colors.LightBlue); // Choose a highlight color that suits your UI
+
+                // Keep track of the currently selected item
+                _previouslySelectedBorder = selectedBorder;
+            }
+        }
     }
 }

@@ -49,7 +49,7 @@ Global
 		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.DefaultBuild|x86.ActiveCfg = Debug
 		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Release|Any CPU.ActiveCfg = Release
 		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Release|x86.ActiveCfg = Release
-		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Student Log In|Any CPU.ActiveCfg = Release
+		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Student Log In|Any CPU.ActiveCfg = Debug
 		{B79A2FD3-2728-4CC6-9121-E406AF3ED552}.Student Log In|x86.ActiveCfg = Debug
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution

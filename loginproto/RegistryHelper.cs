@@ -23,7 +23,7 @@ namespace loginproto
                     parentKey = Registry.CurrentUser.CreateSubKey(registryPath);
                 }
 
-                parentKey.SetValue("EndPath", "\\Robot Revolution Dropbox\\students\\summit\\");
+                parentKey.SetValue("EndPath", "\\Robot Revolution Dropbox\\code\\");
 
                 parentKey.SetValue("DropboxPath",
                     @Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + 

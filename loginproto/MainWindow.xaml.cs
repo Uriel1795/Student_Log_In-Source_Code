@@ -32,7 +32,9 @@ namespace loginproto
             //If textbox is empty show message box
             if (fTxtB.Text.Length == 0 || lTxtB.Text.Length == 0)
             {
-                MessageBox.Show("Please type your full name", "Incomplete Name", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please type your full name",
+                "Incomplete Name", MessageBoxButton.OK, MessageBoxImage.Warning);
+
                 return;
             }
 
@@ -62,7 +64,8 @@ namespace loginproto
 
                 if (adminResult == 1)
                 {
-                    MessageBox.Show("Verified");
+                    MessageBox.Show("Access Granted", "Verified", 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
 
                     //Open Admin window
                     var adminWindow = new AdminModeWindow();
@@ -71,12 +74,14 @@ namespace loginproto
                 }
                 else
                 {
-                    MessageBox.Show("Please type the right password");
+                    MessageBox.Show("Please type the right password", "Wrong password",
+                        MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
             }
             else
             {
-                MessageBox.Show("Operation cancelled.");
+                MessageBox.Show("Operation cancelled.", "Cancelled", MessageBoxButton.OK, 
+                    MessageBoxImage.Exclamation);
 
             }
         }

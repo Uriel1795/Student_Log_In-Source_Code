@@ -7,15 +7,21 @@ namespace loginproto
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
+    /// 
     public partial class App : Application
     {
-        /*private static Mutex mutex = null;
+        //private static Mutex mutex = null;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            const string appName = "StudentLogInApp";
+            if (DriveSettings.IsDriveMapped("R"))
+            {
+                DriveSettings.DisconnectNetworkDrive("R", true);
+            }
+
+            /*const string appName = "StudentLogInApp";
             bool createdNew;
 
             mutex = new Mutex(true, appName, out createdNew);
@@ -28,7 +34,7 @@ namespace loginproto
                 Current.Shutdown();
 
                 return;
-            }
-        }*/
+            }*/
+        }
     }
 }

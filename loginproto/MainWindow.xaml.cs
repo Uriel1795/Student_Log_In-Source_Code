@@ -20,11 +20,6 @@ namespace loginproto
         public MainWindow()
         {
             InitializeComponent();
-
-            if(DriveSettings.IsDriveMapped("R"))
-            {
-                DriveSettings.DisconnectNetworkDrive("R", true);
-            }
         }
 
         //Click on the login button

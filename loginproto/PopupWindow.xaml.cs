@@ -76,6 +76,7 @@ namespace loginproto
                     if (result == MessageBoxResult.OK)
                     {
                         Valid = 1;
+
                         Close();
                     }
                 }

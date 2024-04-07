@@ -8,6 +8,7 @@ namespace loginproto
     /// Interaction logic for App.xaml
     /// </summary>
     /// 
+
     public partial class App : Application
     {
         //private static Mutex mutex = null;

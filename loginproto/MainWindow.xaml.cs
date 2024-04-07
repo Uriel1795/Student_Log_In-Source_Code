@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -15,6 +16,9 @@ namespace loginproto
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    
+    //Update app so that mapped window pops up automatically when student logs in
+
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -23,7 +27,7 @@ namespace loginproto
         }
 
         //Click on the login button
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             //If textbox is empty show message box
             if (fTxtB.Text.Length == 0 || lTxtB.Text.Length == 0)
@@ -41,6 +45,10 @@ namespace loginproto
                 var logout = new LogoutWindow();
 
                 Close();
+
+                await Task.Delay(500);
+
+                Process.Start("explorer.exe", @"R:\");
             }
         }
     }

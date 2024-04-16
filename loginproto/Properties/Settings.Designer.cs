@@ -22,5 +22,17 @@ namespace loginproto.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DoNotShowAgain {
+            get {
+                return ((bool)(this["DoNotShowAgain"]));
+            }
+            set {
+                this["DoNotShowAgain"] = value;
+            }
+        }
     }
 }

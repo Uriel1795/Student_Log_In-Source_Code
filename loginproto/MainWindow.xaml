@@ -26,7 +26,7 @@
         <TextBox x:Name="fTxtB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Width="136" FontSize="16" MaxLines="1" MaxLength="15"/>
         <Label Content="Last Name" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" FontSize="16"/>
         <TextBox x:Name="lTxtB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Width="136" FontSize="16" MaxLines="1" MaxLength="15"/>
-        <Button Content="Log In" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" FontSize="16" Margin="15,0,0,0" Click="Button_Click"/>
+        <Button Content="Log In" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" FontSize="16" Margin="15,0,0,0" Click="Button_Click"/>
         <Image Margin="44,10,43,10" Source="/Resources/Images/logo.png" Stretch="Fill" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,-0.612"/>
     </Grid>
 </Window>

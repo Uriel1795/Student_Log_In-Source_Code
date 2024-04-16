@@ -1,19 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
+﻿using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using Timer = System.Timers.Timer;
 
@@ -31,6 +17,8 @@ namespace loginproto
         {
             InitializeComponent();
 
+            //MonitorNotAllowedPrograms.StartMonitoring();
+
             remainingTimeInSeconds = 105 * 60;
 
             // Start the logout timer
@@ -41,7 +29,10 @@ namespace loginproto
             Closing += LogoutWindow_Closing;
 
             //Show LogoutWindow
+
             Show();
+
+            this.WindowState = WindowState.Minimized;
         }
 
         private void StartLogoutTimer()
@@ -96,6 +87,15 @@ namespace loginproto
         private void DisconnectMappedDrive()
         {
             DriveSettings.DisconnectNetworkDrive("R", true);
+
+            if(DriveSettings.IsDriveMapped("R") != true)
+            {
+                System.Media.SystemSounds.Exclamation.Play();
+            }
+            else
+            {
+                System.Media.SystemSounds.Question.Play();
+            }
         }
 
         private void ShutdownApplication()
@@ -103,16 +103,21 @@ namespace loginproto
             Application.Current.Shutdown();
         }
 
-         private void LogoutWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void LogoutWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // Handle logout button click event
             DisconnectMappedDrive();
 
-            MessageBox.Show("You have been logged out. Please allow a few seconds for the drive to be disconnected.", 
-                "Log Out", MessageBoxButton.OK, MessageBoxImage.Information);
-
             //Shutdown applicaton
             ShutdownApplication();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            var screenWidth = SystemParameters.WorkArea.Width;
+            var screenHeight = SystemParameters.WorkArea.Height;
+            Left = screenWidth - Width;
+            Top = screenHeight - Height;
         }
     }
 }

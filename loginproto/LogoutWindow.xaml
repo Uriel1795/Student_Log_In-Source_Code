@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="LogoutWindow" Height="150" Width="180"
         Icon="/loginproto;component/Resources/Images/logo.ico"
-        WindowStartupLocation="CenterScreen"
-        WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize">
+        WindowStartupLocation="Manual"
+        WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize"
+        Loaded="Window_Loaded"> <!-- Added Loaded event -->
     <Grid>
         <StackPanel Margin="10,10,10,14">
             <TextBlock Text="You will be logged out in:" HorizontalAlignment="Center"/>

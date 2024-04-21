@@ -1,9 +1,7 @@
 ﻿using System.IO;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
-using System.IO.Compression;
 using System.Net.Http;
 
 namespace loginproto
@@ -11,6 +9,7 @@ namespace loginproto
     /// <summary>
     /// Interaction logic for UpdateAvailableWindow.xaml
     /// </summary>
+  
     public partial class UpdateAvailableWindow : Window
     {
         public UpdateAvailableWindow(string updateVersion)
@@ -18,66 +17,66 @@ namespace loginproto
             InitializeComponent();
 
             UpdateVersion = updateVersion;
+
+            Topmost = true;
         }
 
         public string UpdateVersion { get; set; }
 
-        private async void UpdateNow_Click(object sender, RoutedEventArgs e)
+        public async void UpdateNow_Click(object sender, RoutedEventArgs e)
         {
-            string downloadUrl = "https://raw.githubusercontent.com/Uriel1795/Student-Log-In-Installer-file/main/v" + UpdateVersion;
+            await StartUpdateProcess();
+        }
 
-            string tempPath = Path.Combine(Path.GetTempPath(), "setup.exe");
+        public async Task StartUpdateProcess()
+        {
+            // URL to download the executable
+            string downloadUrl = "https://raw.githubusercontent.com/Uriel1795/Student-Log-In-Installer-file/main/v" + UpdateVersion + "/Student Log In.msi";
 
-            MessageBox.Show(tempPath);
-
-            string applicationPath = AppDomain.CurrentDomain.BaseDirectory;
+            // Path to store the downloaded executable
+            string tempPath = Path.Combine(Path.GetTempPath(), "Student Log In.msi");
 
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    // Download the file
+                    // Download the executable file
                     var response = await client.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);
 
-                    MessageBox.Show(response.ToString());
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        MessageBox.Show("Failed to download update. Please try again later.", "Download Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        return;
+                    }
 
                     using (var fs = new FileStream(tempPath, FileMode.Create, FileAccess.Write))
                     {
-                        // Read the response content and write it to file
-                        await response.Content.CopyToAsync(fs);
+                        await response.Content.CopyToAsync(fs); // Write the response content to the file
                     }
                 }
 
-                // File download complete, proceed to extract and update
-                string tempDirectory = Path.Combine(Path.GetTempPath(), "Student Log In");
-                if (Directory.Exists(tempDirectory))
-                {
-                    Directory.Delete(tempDirectory, true);
-                }
-                ZipFile.ExtractToDirectory(tempPath, tempDirectory);
-
-                // Assuming the updater is a separate executable or script that you include in the ZIP
+                // Start the downloaded executable
                 ProcessStartInfo startInfo = new ProcessStartInfo()
                 {
-                    Arguments = applicationPath,
-                    FileName = Path.Combine(tempDirectory, "setup.exe"),
-                    UseShellExecute = true
+                    FileName = tempPath, // Path to the downloaded executable
+                    UseShellExecute = true // Ensures the file is executed properly
                 };
-                Process.Start(startInfo);
 
-                // Close the current application so the updater can replace files
+                Process.Start(startInfo); // Start the process
+
+                // Close the current application to allow the updater to run
                 Application.Current.Shutdown();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to update: " + ex.Message);
+                MessageBox.Show("Failed to update: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         private void Later_Click(object sender, RoutedEventArgs e)
         {
             SaveCheckboxState();
-            this.Close(); // Close the notification window
+            Close(); // Close the notification window
         }
 
         private void SaveCheckboxState()

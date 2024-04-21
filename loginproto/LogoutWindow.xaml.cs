@@ -1,6 +1,5 @@
 ﻿using System.Timers;
 using System.Windows;
-using System.Windows.Threading;
 using Timer = System.Timers.Timer;
 
 namespace loginproto
@@ -32,12 +31,12 @@ namespace loginproto
 
             Show();
 
-            this.WindowState = WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
 
         private void StartLogoutTimer()
         {
-            logoutTimer = new System.Timers.Timer(1000); // Timer Ticks every second
+            logoutTimer = new Timer(1000); // Timer Ticks every second
             logoutTimer.Elapsed += Timer_Tick;
             logoutTimer.AutoReset = true;
             logoutTimer.Enabled = true;
@@ -53,17 +52,11 @@ namespace loginproto
 
                 DisconnectMappedDrive();
 
-                Dispatcher.Invoke(() =>
-                {
-                    ShutdownApplication();
-                });
+                Application.Current.Dispatcher.Invoke(ShutdownApplication);
             }
             else
             {
-                Dispatcher.Invoke(() =>
-                {
-                    UpdateCountdownText();
-                });
+                Application.Current.Dispatcher.Invoke(UpdateCountdownText);
             }
         }
 

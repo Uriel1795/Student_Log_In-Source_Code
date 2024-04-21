@@ -5,26 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:loginproto"
         mc:Ignorable="d"
-        Title="PopupWindow" Height="300" Width="180"
+        Title="PopupWindow" Height="350" Width="275"
         Icon="/loginproto;component/Resources/Images/logo.ico"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize">  
+    
     <Window.Resources>
         <!-- Define DataTemplate for displaying full name -->
         <DataTemplate x:Key="FullNameTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding FirstName}" FontWeight="Bold" Foreground="Blue"/>
+                <TextBlock Text="{Binding FirstName}" 
+                           FontWeight="Bold" 
+                           Foreground="Blue" 
+                           FontSize="17"/>
+                
                 <TextBlock Text=" " />
-                <TextBlock Text="{Binding LastName}" FontWeight="Bold" Foreground="Green"/>
+                <TextBlock Text="{Binding LastName}" 
+                           FontWeight="Bold" 
+                           Foreground="Green" 
+                           FontSize="17"/>
             </StackPanel>
         </DataTemplate>
         
         <!-- Define a DataTemplateSelector to choose appropriate template based on item's type -->
-        <local:NameTemplateSelector x:Key="NameTemplateSelector" FullNameTemplate="{StaticResource FullNameTemplate}"/>
+        <local:NameTemplateSelector x:Key="NameTemplateSelector" 
+                                    FullNameTemplate="{StaticResource FullNameTemplate}"/>
+        
     </Window.Resources>
 
-    <Grid>
+    <Grid Margin="10">
+        <!-- Added margin for spacing -->
+        <!-- Loading Indicator (hidden by default) -->
+        <TextBlock x:Name="loadingText"
+                   Text="Loading..."
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Visibility="Collapsed"
+                   FontSize="16" 
+                   FontWeight="Bold"
+                   Foreground="Black"/>
+
         <!-- ListBox bound to a collection of objects with FirstName and LastName properties -->
-        <ListBox x:Name="listBoxNames" ItemsSource="{Binding Names}" ItemTemplateSelector="{StaticResource NameTemplateSelector}" MouseDoubleClick="listBoxNames_MouseDoubleClick" />
+        <ListBox x:Name="listBoxNames" 
+                 ItemsSource="{Binding Names}" 
+                 ItemTemplateSelector="{StaticResource NameTemplateSelector}" 
+                 MouseDoubleClick="listBoxNames_MouseDoubleClick"
+                 Visibility="Visible"/>  <!-- Visible by default -->
     </Grid>
 </Window>

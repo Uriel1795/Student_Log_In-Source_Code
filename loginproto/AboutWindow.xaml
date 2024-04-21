@@ -1,0 +1,61 @@
+﻿<Window x:Class="loginproto.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About MyApp"
+        Height="250"
+        Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <!-- Grid with rows to organize content -->
+    <Grid>
+        <!-- First row for the logo -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Row for the logo -->
+            <RowDefinition Height="*" />
+            <!-- Row for other content -->
+        </Grid.RowDefinitions>
+
+        <!-- Company Logo at the top -->
+        <Image Grid.Row="0" 
+               Source="/Resources/Images/logo.png"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Top"
+               Height="50" />
+            <!-- Adjust size as needed -->
+
+            <!-- StackPanel for the other information -->
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!-- Application Information -->
+                <TextBlock Text="Student Log In"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       TextAlignment="Center"/>
+                <TextBlock Text="Version 1.1.0.0"
+                       FontSize="16"
+                       TextAlignment="Center"/>
+                <TextBlock Text="© 2024 Robot Revolution"
+                       FontSize="14"
+                       TextAlignment="Center"/>
+                <TextBlock Text="Developed by: Robot Revolution"
+                       FontSize="14"
+                       TextAlignment="Center"/>
+            <!-- Hyperlink for Contact Email -->
+            <TextBlock TextAlignment="Center">
+                For support, contact: 
+                <Hyperlink NavigateUri="mailto:admin@robotrevolution.net"
+                           RequestNavigate="Hyperlink_RequestNavigate"> <!-- Click event handler -->
+                    Robot Revolution
+                </Hyperlink>
+            </TextBlock>
+
+            <!-- Close Button -->
+                <Button Content="Close"
+                    HorizontalAlignment="Center"
+                    Margin="20"
+                    Width="80"
+                    FontSize="17"
+                    Click="Close_Click" />
+            </StackPanel>
+    </Grid>
+</Window>

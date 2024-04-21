@@ -2,14 +2,20 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <Product>Student Log In</Product>
-    <Authors>Cristian Polanco</Authors>
+    <Authors>Robot Revolution</Authors>
     <Company>Robot Revolution</Company>
+    <RepositoryUrl>https://github.com/Uriel1795/RRStudentLogInDesktop-Source-Code</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>This application provides a simple login/logout interface with a countdown timer for session expiration.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,6 +44,10 @@
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Resources\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 

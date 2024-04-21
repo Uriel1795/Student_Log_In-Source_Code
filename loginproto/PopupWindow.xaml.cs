@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using System.IO;
-
 using System.Windows;
 using System.Windows.Input;
 
@@ -12,13 +11,15 @@ namespace loginproto
     public partial class PopupWindow : Window
     {
         private string dropboxPath = string.Empty;
-        private int valid = 0;
+        private bool found = false; 
 
         public PopupWindow(string firstName, string lastName)
         {
             InitializeComponent();
             ViewModel vM = new ViewModel();
-            PopulateNamesList(firstName, lastName, vM);
+
+            Task populateNamesTask = PopulateNamesListAsync(firstName, lastName, vM);
+
             DataContext = vM;
         }      
 
@@ -28,85 +29,114 @@ namespace loginproto
             set { dropboxPath = value; }
         }
 
-        public int Valid
+        public bool Found
         {
-            get { return valid; }
-            set { valid = value; }
+            get { return found; }
+            set { found = value; }
         }
 
-        public void PopulateNamesList(string firstName, string lastName, ViewModel viewModel)
+        public async Task PopulateNamesListAsync(string firstName, string lastName, ViewModel viewModel)
         {
+            var cts = new CancellationTokenSource();
+            var token = cts.Token;
+
             string searchPattern = $"{firstName.ToLower()}.{lastName.ToLower()}";
 
-            MessageBox.Show(searchPattern);
-
-            // Define the Dropbox path
+            // Dropbox path
             DropboxPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                "Robot Revolution Dropbox", "code");
+                    "Robot Revolution Dropbox", "code");
 
             string[] dirs = Directory.GetDirectories(DropboxPath, $"{searchPattern}");
 
             TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
 
             if (dirs.Length > 0)
-            {   
+            {
                 try
                 {
-                    var mapPath = @"\\" + Environment.MachineName + "\\Users\\" + 
-                        Environment.UserName + "\\Robot Revolution Dropbox\\code\\" + 
+                    var mapPath = @"\\" + Environment.MachineName + "\\Users\\" +
+                        Environment.UserName + "\\Robot Revolution Dropbox\\code\\" +
                         searchPattern;
 
                     DriveSettings.MapNetworkDrive("R", mapPath);
 
-                    MessageBoxResult result = MessageBox.Show("Login successful.", 
-                        "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                   var result = MessageBox.Show("Log in successful", "Success", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
 
-                    if (result == MessageBoxResult.OK)
+                    if(result == MessageBoxResult.OK)
                     {
-                        Valid = 1;
-
-                        Close();
+                        Found = true;
                     }
                 }
-                catch(Exception ex) 
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Some Error " + ex, "Error", MessageBoxButton.OK, 
-                        MessageBoxImage.Stop);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        MessageBox.Show("Some Error: " + ex.Message, "Error", MessageBoxButton.OK,
+                            MessageBoxImage.Stop);
+                    });
                 }
             }
             else
             {
-                searchPattern = $"{firstName[0]}*.{lastName[0]}*";
-
-                dirs = Directory.GetDirectories(DropboxPath, $"{searchPattern}");
-
-                if (dirs.Length > 0)
+                bool dataLoaded = await Task.Run(() =>
                 {
-                    foreach (var dir in dirs)
+                    // Show loading text and hide list box on the UI thread
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        string mDir = dir.Replace(DropboxPath, "").Replace('.', ' ').Replace('\\', ' ').Trim();
+                        loadingText.Visibility = Visibility.Visible;
+                        listBoxNames.Visibility = Visibility.Hidden;
 
-                        //MessageBox.Show(mDir);
+                        Show();
+                    });
 
-                        string[] splitName = textInfo.ToTitleCase(mDir.ToLower()).Split(' ');
+                    searchPattern = $"{firstName[0]}*.{lastName[0]}*";
 
-                        //if (splitName.Length >= 3)
-                            viewModel.AddStudent(splitName[0], splitName[1]);
-                        /*else
-                            viewModel.AddStudent(splitName[0].Replace('\\', ' ').Trim(), splitName[1], null);*/
+                    dirs = Directory.GetDirectories(DropboxPath, $"{searchPattern}");
+
+                    if (dirs.Length > 0)
+                    {
+                        foreach (var dir in dirs)
+                        {
+                            string mDir = dir.Replace(DropboxPath, "").Replace('.', ' ').Replace('\\', ' ').Trim();
+
+                            string[] splitName = textInfo.ToTitleCase(mDir.ToLower()).Split(' ');
+
+                            viewModel.AddStudent(splitName[0], splitName[1]); // Populate the view model
+                        }
+
+                        Found = true; // Data was found
                     }
+                    return Found;
 
-                    Show();
-                }
-                else
+                },token);
+
+                // Perform UI updates based on whether data was found
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    MessageBox.Show("Student could not be found.", 
-                        "Not found", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    if (dataLoaded)
+                    {
+                        listBoxNames.Visibility = Visibility.Visible;
+                        loadingText.Visibility = Visibility.Collapsed;
 
-                    Close();
-                }
+                        Show(); // Ensure this is on the UI thread
+                    }
+                    else
+                    {
+                        MessageBox.Show("Student could not be found.",
+                            "Not found", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                        Close();
+                    }
+                });
+
             }
+
+            // Cancel the token to prevent further processing
+            cts.Cancel();
         }
+
+
         private void listBoxNames_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if(listBoxNames.SelectedItem != null) 

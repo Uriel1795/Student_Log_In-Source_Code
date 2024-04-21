@@ -3,30 +3,115 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:loginproto"
         mc:Ignorable="d"
-        Title="Log In" Height="250" Width="275"
+        Title="Log In"
+        Height="375"
+        Width="400"
         Icon="/loginproto;component/Resources/Images/logo.ico"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize">
-    <Grid x:Name="logInWindow" ShowGridLines="False">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition Width="175"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+        ResizeMode="NoResize"
+        Background="#FFF">
 
-        <Label Content="First Name" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" FontSize="16"/>
+    <DockPanel>
 
-        <TextBox x:Name="fTxtB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Width="136" FontSize="16" MaxLines="1" MaxLength="15"/>
-        <Label Content="Last Name" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" FontSize="16"/>
-        <TextBox x:Name="lTxtB" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Grid.Row="2" Grid.Column="2" Width="136" FontSize="16" MaxLines="1" MaxLength="15"/>
-        <Button Content="Log In" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" FontSize="16" Margin="15,0,0,0" Click="Button_Click"/>
-        <Image Margin="44,10,43,10" Source="/Resources/Images/logo.png" Stretch="Fill" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,-0.612"/>
-    </Grid>
+        <!-- Menu Bar -->
+        <Menu DockPanel.Dock="Top" Background="#FAFAFA">
+            <!-- File Menu -->
+            <MenuItem Header="File" FontSize="17">
+                <!-- Update Option -->
+                <MenuItem x:Name="UpdateTab"
+                          Background="#FAFAFA"
+                          Header="Update"
+                          Click="updateTab_Click"/>
+
+                <!-- About Option -->
+                <MenuItem Header="About"
+                          Background="#FAFAFA"
+                          Click="aboutButton_Click" />
+            </MenuItem>
+        </Menu>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="59*"/>
+                <ColumnDefinition Width="341*"/>
+            </Grid.ColumnDefinitions>
+            <Border Background="White"
+                CornerRadius="10" Grid.ColumnSpan="2">
+
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Logo -->
+                    <Image Source="/Resources/Images/logo.png"
+                       Grid.ColumnSpan="2"
+                       Margin="30,0,0,0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Height="60" />
+
+                    <!-- Input Fields -->
+                    <Label Content="First Name:"
+                       Grid.Row="1"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       FontSize="20"
+                       Margin="28,0,0,0"/>
+
+                    <TextBox x:Name="fTxtB"
+                         Grid.Row="1"
+                         Grid.Column="1"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Left"
+                         Margin="10,0,0,0"
+                         Width="150"
+                         MaxLength="12"
+                         FontSize="20"/>
+
+                    <Label Content="Last Name:"
+                       Grid.Row="2"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       Margin="28,26,0,0"
+                       FontSize="20"/>
+                    <TextBox x:Name="lTxtB"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         VerticalAlignment="Top"
+                         HorizontalAlignment="Left"
+                         Margin="10,33,0,0"
+                         Width="150"
+                         MaxLength="12"
+                         FontSize="20"/>
+
+                    <!-- Login Button -->
+                    <Button Content="Log In"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="140,22,0,0"
+                        Padding="10,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="#007ACC"
+                        Foreground="White"
+                        BorderBrush="{x:Null}"
+                        FontWeight="Bold"
+                        Height="40"
+                        FontSize="20"
+                        Click="logInButton_Click"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </DockPanel>
 </Window>

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Text.Json;
 
@@ -14,6 +12,7 @@ namespace loginproto
 
     public partial class MainWindow : Window
     {
+        private UpdateInfo? updateInfo;
         public MainWindow()
         {
             InitializeComponent();
@@ -21,28 +20,28 @@ namespace loginproto
             CheckForUpdatesAsync();
         }
 
+        public UpdateInfo? _UpdateInfo
+        { 
+            get { return updateInfo; } 
+            set {  updateInfo = value; } 
+        }
         private async void CheckForUpdatesAsync()
         {
             var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            var updateInfo = await GetLatestVersionInfoAsync();
+            Title = "Log In - " + currentVersion;
+            _UpdateInfo = await GetLatestVersionInfoAsync();
 
-            if (updateInfo?.Version != null)
+            if (_UpdateInfo?.Version != null)
             {
-                var latestVersion = new Version(updateInfo.Version);
+                var latestVersion = new Version(_UpdateInfo.Version);
 
 
                 if (latestVersion > currentVersion)
                 {
                     var updateWindow =
-                        new UpdateAvailableWindow(updateInfo.Version);
+                        new UpdateAvailableWindow(_UpdateInfo.Version);
 
                     updateWindow.Show();
-
-                    /*if (result == MessageBoxResult.Yes)
-                    {
-                        // Note: UseShellExecute must be true to open the URL in a browser.
-                        Process.Start(new ProcessStartInfo(updateInfo.Url) { UseShellExecute = true });
-                    }*/
                 }
             }
         }
@@ -51,16 +50,33 @@ namespace loginproto
         {
             using (var client = new HttpClient())
             {
-                // Example URL - replace with the actual raw GitHub URL to your update_info.json
-                var json = await client.GetStringAsync("https://raw.githubusercontent.com/Uriel1795/Student-Log-In-Installer-file/main/update_info.json");
+                string json = string.Empty;
 
-                return JsonSerializer.Deserialize<UpdateInfo>(json,
+                try
+                {
+                    // Raw GitHub URL to update_info.json
+                    json = await client.GetStringAsync("https://raw.githubusercontent.com/Uriel1795/Student-Log-In-Installer-file/main/update_info.json");
+
+                    return JsonSerializer.Deserialize<UpdateInfo>(json,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                }
+                catch (HttpRequestException)
+                {
+                    MessageBox.Show("It seems you are not connected to the internet. Updates will be checked next time.", "No internet connection", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
+                    return null;
+                }
+                catch(Exception ex) 
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+
+                    return null;
+                }
             }
         }
 
         //Click on the login button
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void logInButton_Click(object sender, RoutedEventArgs e)
         {
             //If textbox is empty show message box
             if (string.IsNullOrEmpty(fTxtB.Text) || string.IsNullOrEmpty(lTxtB.Text))
@@ -72,19 +88,45 @@ namespace loginproto
             }
 
             //Assign variable to a new instance of popupwindow passing the textboxes with the first name and last name
-
             var popup = new PopupWindow(fTxtB.Text.Trim().ToString(), lTxtB.Text.Trim().ToString());
 
-            if (popup.Valid == 1)
+            if (popup.Found == true)
             {
                 var logout = new LogoutWindow();
 
-                Close();
+                Application.Current.Dispatcher.Invoke(Close);
 
                 await Task.Delay(500);
 
                 Process.Start("explorer.exe", @"R:\");
             }
+        }
+
+        private async void updateTab_Click(object sender, RoutedEventArgs e)
+        {
+            if (_UpdateInfo?.Version != null)
+            {
+                var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                var latestVersion = new Version(_UpdateInfo.Version);
+                var updateWindow = new UpdateAvailableWindow(_UpdateInfo.Version);
+
+                if (latestVersion > currentVersion)
+                {
+                    // Start the update process asynchronously
+                    await updateWindow.StartUpdateProcess();
+                }
+                else
+                {
+                    MessageBox.Show("No updates available at the moment", "No updates available", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+        }
+
+        private void aboutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var aboutWindow = new AboutWindow();
+
+            aboutWindow.Show();
         }
     }
 }

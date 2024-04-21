@@ -1,29 +1,51 @@
 ﻿<Window x:Class="loginproto.UpdateAvailableWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Update Available!" Height="290" Width="400"
-        Icon="/loginproto;component/Resources/Images/logo.ico" Background="#F5F5F5">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center" Margin="0,0,0,20">
-            <Image Source="/loginproto;component/Resources/Images/logo.ico" Height="40"/>
-            <TextBlock Text="Update Available!"
-                       FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,0,0"
-                       Foreground="#2E86C1"/>
-        </StackPanel>
-        <TextBlock Text="A new version of the app is ready to download. Enjoy the latest features and improvements!"
-                   Grid.Row="1" Margin="0,0,0,20" TextWrapping="Wrap" FontSize="14"/>
-        <CheckBox x:Name="DoNotShowAgainCheckbox" Content="Do not show again" Grid.Row="2" Margin="0,10" FontSize="14"/>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-            <Button Content="Update Now" Margin="10,0" Padding="20,10" Click="UpdateNow_Click"
-                    Background="#3498DB" Foreground="White" BorderBrush="Transparent" FontSize="14"/>
-            <Button Content="Later" Padding="20,10" Click="Later_Click"
-                    Background="#ABB2B9" Foreground="White" BorderBrush="Transparent" FontSize="14"/>
-        </StackPanel>
+        Title="Update Available!" Height="370" Width="400"
+        Icon="/loginproto;component/Resources/Images/logo.ico"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        Topmost="True"
+        Background="#FFF">
+
+    <Grid>
+        <Border Background="White"
+        CornerRadius="10"
+        Margin="10">
+
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Logo and Title -->
+                <StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center" Margin="0,0,0,20">
+                    <Image Source="/loginproto;component/Resources/Images/logo.ico" Height="40"/>
+                    <TextBlock Text="Update Available!"
+                           FontSize="18" FontWeight="Bold" VerticalAlignment="Center" Margin="10,0,0,0"
+                           Foreground="#2E86C1"/>
+                </StackPanel>
+
+                <!-- Update Description -->
+                <TextBlock Text="A new version of the app is ready to download. Enjoy the latest features and improvements!"
+                       Grid.Row="1" Margin="0,0,0,20" TextWrapping="Wrap" FontSize="17"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <!-- 'Do not show again' Checkbox -->
+                <CheckBox x:Name="DoNotShowAgainCheckbox" Content="Do not show again" Grid.Row="2" Margin="0,10" FontSize="17"
+                      HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+                <!-- Buttons for 'Update Now' and 'Later' -->
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Content="Update Now" Margin="10,10" Padding="20,10" Click="UpdateNow_Click"
+                        Background="#3498DB" Foreground="White" BorderThickness="1" FontSize="17"/>
+
+                    <Button Content="Later" Padding="40,10" Click="Later_Click" Margin="10"
+                        Background="#ABB2B9" Foreground="White" BorderThickness="1" FontSize="17"/>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

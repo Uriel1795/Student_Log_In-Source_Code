@@ -1,4 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Threading;
+using System.Windows;
+using System;
 
 namespace loginproto
 {
@@ -12,7 +15,18 @@ namespace loginproto
 
         public void AddStudent(string firstName, string lastName)
         {
-            Names.Add(new Student { FirstName = firstName, LastName = lastName});
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    Names.Add(new Student { FirstName = firstName, LastName = lastName });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error adding student: " + ex.Message);
+
+                }
+            });
         }
     }
 }

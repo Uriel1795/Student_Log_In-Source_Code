@@ -10,19 +10,18 @@ namespace loginproto
     public partial class LogoutWindow : Window
     {
         private Timer logoutTimer;
+        private DateTime timerStartTime;
+        private int initialTimerDurationInSeconds = 105 * 60;
         private int remainingTimeInSeconds;
+
 
         public LogoutWindow()
         {
             InitializeComponent();
-
-            //MonitorNotAllowedPrograms.StartMonitoring();
-
-            remainingTimeInSeconds = 105 * 60;
+            timerStartTime = DateTime.Now;
 
             // Start the logout timer
             StartLogoutTimer();
-
             UpdateCountdownText(); // Update the countdown text when the window is created
 
             Closing += LogoutWindow_Closing;
@@ -44,14 +43,14 @@ namespace loginproto
 
         private void Timer_Tick(object sender, ElapsedEventArgs e)
         {
-            remainingTimeInSeconds--;
+            TimeSpan elapsed = DateTime.Now - timerStartTime;
+
+            remainingTimeInSeconds = initialTimerDurationInSeconds - (int)elapsed.TotalSeconds;
 
             if (remainingTimeInSeconds <= 0)
             {
                 logoutTimer.Stop();
-
                 DisconnectMappedDrive();
-
                 Application.Current.Dispatcher.Invoke(ShutdownApplication);
             }
             else

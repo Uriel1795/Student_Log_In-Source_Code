@@ -76,7 +76,7 @@ namespace loginproto
         }
 
         //Click on the login button
-        private async void logInButton_Click(object sender, RoutedEventArgs e)
+        private void logInButton_Click(object sender, RoutedEventArgs e)
         {
             //If textbox is empty show message box
             if (string.IsNullOrEmpty(fTxtB.Text) || string.IsNullOrEmpty(lTxtB.Text))
@@ -96,8 +96,6 @@ namespace loginproto
 
                 Application.Current.Dispatcher.Invoke(Close);
 
-                await Task.Delay(500);
-
                 Process.Start("explorer.exe", @"R:\");
             }
         }
@@ -114,6 +112,7 @@ namespace loginproto
                 {
                     // Start the update process asynchronously
                     await updateWindow.StartUpdateProcess();
+
                 }
                 else
                 {

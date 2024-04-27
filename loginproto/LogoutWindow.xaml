@@ -11,10 +11,10 @@
         WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize"
         Loaded="Window_Loaded"> <!-- Added Loaded event -->
     <Grid>
-        <StackPanel Margin="10,10,10,14">
+        <StackPanel Margin="5">
             <TextBlock Text="You will be logged out in:" HorizontalAlignment="Center"/>
             <TextBlock x:Name="countdownText" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
-            <Button Content="Logout Now" Width="100" Margin="0 20" HorizontalAlignment="Center" Click="LogoutButton_Click"/>
+            <Button Content="Logout Now" Width="100" Margin="0, 20, 0 , 0" HorizontalAlignment="Center" Click="LogoutButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>

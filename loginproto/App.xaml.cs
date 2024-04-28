@@ -1,5 +1,6 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using System;
+using System.Diagnostics;
+using System.Security.Principal;
 using System.Windows;
 
 namespace loginproto
@@ -10,32 +11,54 @@ namespace loginproto
     /// 
 
     public partial class App : Application
-    {
-        //private static Mutex mutex = null;
-
+    {  
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            //Check if the app is running on admin mode
+            /*if(!IsRunningAsAdmin())
+            {
+                //If not, restart as admin
+                RestartAsAdmin();
+                Shutdown();
+                return;
+            }*/
 
             if (DriveSettings.IsDriveMapped("R"))
             {
                 DriveSettings.DisconnectNetworkDrive("R", true);
             }
-
-            /*const string appName = "StudentLogInApp";
-            bool createdNew;
-
-            mutex = new Mutex(true, appName, out createdNew);
-
-            if (!createdNew)
-            {
-                // If the mutex exists, then the application is already running
-                MessageBox.Show("An instance of the application is already running.");
-
-                Current.Shutdown();
-
-                return;
-            }*/
         }
+
+        //Function to check if app is running as admin
+        private bool IsRunningAsAdmin()
+        {
+            var currentIdentify = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(currentIdentify);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        //Function to restart as admin
+        private void RestartAsAdmin()
+        {
+            var processStartInfo = new ProcessStartInfo
+            {
+                FileName = System.Reflection.Assembly.GetExecutingAssembly().Location,
+                UseShellExecute = true,
+                Verb = "runas",
+            };
+
+            try
+            {
+                Process.Start(processStartInfo);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Failed to restart with admin privileges: {ex.Message}");
+            }
+        }
+
+
     }
 }

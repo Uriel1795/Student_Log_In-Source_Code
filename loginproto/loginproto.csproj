@@ -16,9 +16,13 @@
     <FileVersion>1.1.0.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>This application provides a simple login/logout interface with a countdown timer for session expiration.</Description>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\default_file_icon.png" />
+    <None Remove="Resources\Images\folder_icon.png" />
+    <None Remove="Resources\Images\iqblocks_file_icon.png" />
     <None Remove="Resources\Images\logo.ico" />
     <None Remove="Resources\Images\logo.png" />
   </ItemGroup>
@@ -28,6 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\default_file_icon.png" />
+    <Resource Include="Resources\Images\folder_icon.png" />
+    <Resource Include="Resources\Images\iqblocks_file_icon.png" />
     <Resource Include="Resources\Images\logo.ico" />
     <Resource Include="Resources\Images\logo.png" />
   </ItemGroup>

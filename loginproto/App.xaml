@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:loginproto"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- BooleanToIconConverter for icon determination -->
+        
+        <local:BooleanToIconConverter x:Key="BooleanToIconConverter"/>
+        
+        <!-- Ensure correct naming -->
     </Application.Resources>
 </Application>

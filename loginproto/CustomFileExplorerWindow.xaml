@@ -1,0 +1,31 @@
+﻿<Window x:Class="loginproto.CustomFileExplorerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:loginproto"
+        Title="Custom File Explorer" Height="450" Width="800"
+        SizeChanged="OnWindowSizeChanged">
+    <Grid>
+        <ListView x:Name="fileListView">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel x:Name="wrapPanel" Orientation="Horizontal" />
+                    <!-- Avoids horizontal scrolling -->
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+
+            <!-- Define the tile appearance -->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Image Width="32" Height="32">
+                            <Image.Source>
+                                <Binding Path="IsDirectory" Converter="{StaticResource BooleanToIconConverter}" />
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="{Binding DisplayName}" TextAlignment="Center" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Window>

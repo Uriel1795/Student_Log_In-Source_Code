@@ -3,6 +3,8 @@ using System.Net.Http;
 using System.Reflection;
 using System.Windows;
 using System.Text.Json;
+using System.IO;
+using System.Windows.Controls;
 
 namespace loginproto
 {
@@ -96,11 +98,13 @@ namespace loginproto
 
                 Application.Current.Dispatcher.Invoke(Close);
 
-                Process.Start("explorer.exe", @"R:\");
+                CustomFileExplorerWindow customExplorer = new CustomFileExplorerWindow();
+
+                customExplorer.Show();
             }
         }
 
-        private async void updateTab_Click(object sender, RoutedEventArgs e)
+    private async void updateTab_Click(object sender, RoutedEventArgs e)
         {
             if (_UpdateInfo?.Version != null)
             {

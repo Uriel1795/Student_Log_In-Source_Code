@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace loginproto
 {
-    public class UpdateInfo
+    public class UpdateInfoModel
     {
         [JsonPropertyName("version")]
         public required string Version { get; set; }

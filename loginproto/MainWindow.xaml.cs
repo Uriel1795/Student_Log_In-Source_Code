@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Windows;
 using System.Text.Json;
+using System.Windows.Input;
 
 namespace loginproto
 {
@@ -12,7 +13,8 @@ namespace loginproto
 
     public partial class MainWindow : Window
     {
-        private UpdateInfo? updateInfo;
+        private UpdateInfoModel? updateInfo;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -20,7 +22,7 @@ namespace loginproto
             CheckForUpdatesAsync();
         }
 
-        public UpdateInfo? _UpdateInfo
+        public UpdateInfoModel? _UpdateInfo
         { 
             get { return updateInfo; } 
             set {  updateInfo = value; } 
@@ -35,7 +37,6 @@ namespace loginproto
             {
                 var latestVersion = new Version(_UpdateInfo.Version);
 
-
                 if (latestVersion > currentVersion)
                 {
                     var updateWindow =
@@ -45,8 +46,7 @@ namespace loginproto
                 }
             }
         }
-
-        private static async Task<UpdateInfo?> GetLatestVersionInfoAsync()
+        private static async Task<UpdateInfoModel?> GetLatestVersionInfoAsync()
         {
             using (var client = new HttpClient())
             {
@@ -57,7 +57,7 @@ namespace loginproto
                     // Raw GitHub URL to update_info.json
                     json = await client.GetStringAsync("https://raw.githubusercontent.com/Uriel1795/Student-Log-In-Installer-file/main/update_info.json");
 
-                    return JsonSerializer.Deserialize<UpdateInfo>(json,
+                    return JsonSerializer.Deserialize<UpdateInfoModel>(json,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 }
                 catch (HttpRequestException)
@@ -76,12 +76,17 @@ namespace loginproto
         }
 
         //Click on the login button
-        private async void logInButton_Click(object sender, RoutedEventArgs e)
+        private void logInButton_Click(object sender, RoutedEventArgs e)
+        {
+            loginHandler();
+        }
+
+        public void loginHandler()
         {
             //If textbox is empty show message box
             if (string.IsNullOrEmpty(fTxtB.Text) || string.IsNullOrEmpty(lTxtB.Text))
             {
-                MessageBox.Show("Please type your full name", 
+                MessageBox.Show("Please type your full name",
                     "Incomplete Name", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 return;
@@ -95,8 +100,6 @@ namespace loginproto
                 var logout = new LogoutWindow();
 
                 Application.Current.Dispatcher.Invoke(Close);
-
-                await Task.Delay(500);
 
                 Process.Start("explorer.exe", @"R:\");
             }
@@ -127,6 +130,12 @@ namespace loginproto
             var aboutWindow = new AboutWindow();
 
             aboutWindow.Show();
+        }
+
+        private void TextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                loginHandler();
         }
     }
 }

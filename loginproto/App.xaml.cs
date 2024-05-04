@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Windows;
 
 namespace loginproto
@@ -11,31 +12,30 @@ namespace loginproto
 
     public partial class App : Application
     {
-        //private static Mutex mutex = null;
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            if (DriveSettings.IsDriveMapped("R"))
+            string dropboxPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    "Robot Revolution Dropbox", "code");
+
+            try
             {
-                DriveSettings.DisconnectNetworkDrive("R", true);
+                if (Directory.Exists(dropboxPath))
+                {
+                    //MessageBox.Show("You good homie");
+
+                    if (DriveSettingsHelper.IsDriveMapped("R"))
+                    {
+                        DriveSettingsHelper.DisconnectNetworkDrive("R", true);
+                    }
+                }
             }
-
-            /*const string appName = "StudentLogInApp";
-            bool createdNew;
-
-            mutex = new Mutex(true, appName, out createdNew);
-
-            if (!createdNew)
+            catch
             {
-                // If the mutex exists, then the application is already running
-                MessageBox.Show("An instance of the application is already running.");
-
-                Current.Shutdown();
-
-                return;
-            }*/
+                MessageBox.Show("Student dropbox path is not found. Please ensure Dropbox is set up correctly.", "Dropbox not found", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                Shutdown(1);
+            }
         }
     }
 }

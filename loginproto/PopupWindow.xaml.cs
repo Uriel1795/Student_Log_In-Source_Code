@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace loginproto
 {
@@ -16,12 +17,13 @@ namespace loginproto
         public PopupWindow(string firstName, string lastName)
         {
             InitializeComponent();
+
             ViewModel vM = new ViewModel();
 
             Task populateNamesTask = PopulateNamesListAsync(firstName, lastName, vM);
 
             DataContext = vM;
-        }      
+        }
 
         public string DropboxPath
         {
@@ -54,11 +56,10 @@ namespace loginproto
             {
                 try
                 {
-                    var mapPath = @"\\" + Environment.MachineName + "\\Users\\" +
-                        Environment.UserName + "\\Robot Revolution Dropbox\\code\\" +
-                        searchPattern;
+                    var mapPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    "Robot Revolution Dropbox", "code", searchPattern);
 
-                    DriveSettings.MapNetworkDrive("R", mapPath);
+                    DriveSettingsHelper.MapNetworkDrive("R", mapPath);
 
                    var result = MessageBox.Show("Log in successful", "Success", MessageBoxButton.OK,
                         MessageBoxImage.Information);
@@ -79,12 +80,12 @@ namespace loginproto
             }
             else
             {
-                bool dataLoaded = await Task.Run(() =>
+                bool dataLoaded = await Task.Run(async () =>
                 {
                     // Show loading text and hide list box on the UI thread
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        loadingText.Visibility = Visibility.Visible;
+                        ShowLoading();
                         listBoxNames.Visibility = Visibility.Hidden;
 
                         Show();
@@ -96,13 +97,15 @@ namespace loginproto
 
                     if (dirs.Length > 0)
                     {
+                        await Task.Delay(5000);
+
                         foreach (var dir in dirs)
                         {
                             string mDir = dir.Replace(DropboxPath, "").Replace('.', ' ').Replace('\\', ' ').Trim();
 
                             string[] splitName = textInfo.ToTitleCase(mDir.ToLower()).Split(' ');
 
-                            viewModel.AddStudent(splitName[0], splitName[1]); // Populate the view model
+                            viewModel.AddStudent(splitName[0], splitName[1]); // Populate the view model                   
                         }
 
                         Found = true; // Data was found
@@ -117,7 +120,7 @@ namespace loginproto
                     if (dataLoaded)
                     {
                         listBoxNames.Visibility = Visibility.Visible;
-                        loadingText.Visibility = Visibility.Collapsed;
+                        HideLoading();
 
                         Show(); // Ensure this is on the UI thread
                     }
@@ -129,13 +132,11 @@ namespace loginproto
                         Close();
                     }
                 });
-
             }
 
             // Cancel the token to prevent further processing
             cts.Cancel();
         }
-
 
         private void listBoxNames_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -143,7 +144,7 @@ namespace loginproto
             {
                 try
                 {
-                    Student selectedStudent = (Student)listBoxNames.SelectedItem;
+                    StudentModel selectedStudent = (StudentModel)listBoxNames.SelectedItem;
 
                     // Pass selected student information to the existing MainWindow instance
                     ((MainWindow)Application.Current.MainWindow).fTxtB.Text = 
@@ -165,6 +166,38 @@ namespace loginproto
                     MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButton.OK, 
                         MessageBoxImage.Stop);
                 }
+            }
+        }
+
+        // Method to show the spinner animation
+        private void ShowLoading()
+        {
+            var spinner = FindResource("spinnerAnimation") as Storyboard;
+
+            spinner?.Begin();
+
+            // Set the Ellipse visibility to visible
+            var ellipse = FindName("loadingText") as UIElement;
+
+            if (ellipse != null)
+            {
+                ellipse.Visibility = Visibility.Visible;
+            }
+        }
+
+        // Method to hide the spinner animation
+        private void HideLoading()
+        {
+            var spinner = FindName("spinnerAnimation") as Storyboard;
+            
+            spinner?.Stop();
+
+            // Set the Ellipse visibility to collapsed
+            var ellipse = FindName("loadingText") as UIElement;
+
+            if (ellipse != null)
+            {
+                ellipse.Visibility = Visibility.Collapsed;
             }
         }
     }

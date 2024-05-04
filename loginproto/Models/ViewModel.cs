@@ -9,9 +9,9 @@ namespace loginproto
     {
         public ViewModel()
         {
-            Names = new ObservableCollection<Student>();
+            Names = new ObservableCollection<StudentModel>();
         }
-        public ObservableCollection<Student> Names { get; }
+        public ObservableCollection<StudentModel> Names { get; }
 
         public void AddStudent(string firstName, string lastName)
         {
@@ -19,7 +19,7 @@ namespace loginproto
             {
                 try
                 {
-                    Names.Add(new Student { FirstName = firstName, LastName = lastName });
+                    Names.Add(new StudentModel { FirstName = firstName, LastName = lastName });
                 }
                 catch (Exception ex)
                 {

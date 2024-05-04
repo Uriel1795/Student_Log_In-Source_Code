@@ -5,51 +5,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:loginproto"
         mc:Ignorable="d"
-        Title="PopupWindow" Height="350" Width="275"
-        Icon="/loginproto;component/Resources/Images/logo.ico"
+        Title="PopupWindow"
+        Height="350"
+        Width="275"
+        Icon="loginproto;component/Resources/Images/logo.ico"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize">  
-    
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanMinimize">
+
     <Window.Resources>
-        <!-- Define DataTemplate for displaying full name -->
+        <!-- Storyboard for spinner animation -->
+        <Storyboard x:Key="spinnerAnimation" RepeatBehavior="Forever">
+            <DoubleAnimation
+                Storyboard.TargetName="loadingText"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                From="0" To="360" Duration="0:0:1" >
+            </DoubleAnimation>
+            <!-- Full rotation in one second -->
+        </Storyboard>
+
+        <!-- Data template for displaying full name -->
         <DataTemplate x:Key="FullNameTemplate">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding FirstName}" 
                            FontWeight="Bold" 
                            Foreground="Blue" 
-                           FontSize="17"/>
-                
+                           FontSize="17" />
+
                 <TextBlock Text=" " />
+
                 <TextBlock Text="{Binding LastName}" 
                            FontWeight="Bold" 
                            Foreground="Green" 
-                           FontSize="17"/>
+                           FontSize="17" />
             </StackPanel>
         </DataTemplate>
-        
-        <!-- Define a DataTemplateSelector to choose appropriate template based on item's type -->
-        <local:NameTemplateSelector x:Key="NameTemplateSelector" 
-                                    FullNameTemplate="{StaticResource FullNameTemplate}"/>
-        
+
+        <local:NameTemplateSelectorHelper x:Key="NameTemplateSelectorHelper"
+                 FullNameTemplate="{StaticResource FullNameTemplate}"/>
+
     </Window.Resources>
 
     <Grid Margin="10">
-        <!-- Added margin for spacing -->
-        <!-- Loading Indicator (hidden by default) -->
-        <TextBlock x:Name="loadingText"
-                   Text="Loading..."
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Visibility="Collapsed"
-                   FontSize="16" 
-                   FontWeight="Bold"
-                   Foreground="Black"/>
+        <!-- Spinner animation for loading indicator -->
+        <Ellipse x:Name="loadingText" 
+                 Width="30" 
+                 Height="30" 
+                 Stroke="Black" 
+                 StrokeThickness="4"
+                 HorizontalAlignment="Center" 
+                 VerticalAlignment="Center"
+                 Visibility="Collapsed">
+            <!-- Hidden by default -->
+            <Ellipse.RenderTransform>
+                <RotateTransform CenterX="15" CenterY="15" />
+                <!-- Rotation center -->
+            </Ellipse.RenderTransform>
+        </Ellipse>
 
-        <!-- ListBox bound to a collection of objects with FirstName and LastName properties -->
+        <!-- ListBox to display data -->
         <ListBox x:Name="listBoxNames" 
                  ItemsSource="{Binding Names}" 
-                 ItemTemplateSelector="{StaticResource NameTemplateSelector}" 
+                 ItemTemplateSelector="{StaticResource NameTemplateSelectorHelper}" 
                  MouseDoubleClick="listBoxNames_MouseDoubleClick"
-                 Visibility="Visible"/>  <!-- Visible by default -->
+                 Visibility="Visible" />
+        <!-- Initially visible -->
     </Grid>
 </Window>

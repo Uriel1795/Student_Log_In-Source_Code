@@ -9,12 +9,12 @@ namespace loginproto
     /// <summary>
     /// Interaction logic for PopupWindow.xaml
     /// </summary>
-    public partial class PopupWindow : Window
+    public partial class StudentListWindow : Window
     {
         private string dropboxPath = string.Empty;
         private bool found = false; 
 
-        public PopupWindow(string firstName, string lastName)
+        public StudentListWindow(string firstName, string lastName)
         {
             InitializeComponent();
 

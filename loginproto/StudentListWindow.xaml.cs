@@ -59,6 +59,8 @@ namespace loginproto
                     var mapPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                     "Robot Revolution Dropbox", "code", searchPattern);
 
+                    MessageBox.Show(mapPath);
+
                     DriveSettingsHelper.MapNetworkDrive("R", mapPath);
 
                    var result = MessageBox.Show("Log in successful", "Success", MessageBoxButton.OK,
@@ -67,6 +69,7 @@ namespace loginproto
                     if(result == MessageBoxResult.OK)
                     {
                         Found = true;
+                        MessageBox.Show("True");
                     }
                 }
                 catch (Exception ex)
@@ -80,7 +83,7 @@ namespace loginproto
             }
             else
             {
-                bool dataLoaded = await Task.Run(async () =>
+                bool dataLoaded = await Task.Run(() =>
                 {
                     // Show loading text and hide list box on the UI thread
                     Application.Current.Dispatcher.Invoke(() =>
@@ -97,7 +100,7 @@ namespace loginproto
 
                     if (dirs.Length > 0)
                     {
-                        await Task.Delay(5000);
+                        //await Task.Delay(5000);
 
                         foreach (var dir in dirs)
                         {

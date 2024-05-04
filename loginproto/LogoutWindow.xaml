@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:loginproto"
         mc:Ignorable="d"
         Title="Logout" Height="150" Width="180"
-        Icon="/loginproto;component/Resources/Images/logo.ico"
+        Icon="/Resources/Images/logo.ico"
         WindowStartupLocation="Manual"
         WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize"
         Loaded="Window_Loaded"> <!-- Added Loaded event -->

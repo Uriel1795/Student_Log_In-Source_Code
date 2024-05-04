@@ -7,7 +7,7 @@ using System.Windows.Media.Animation;
 namespace loginproto
 {
     /// <summary>
-    /// Interaction logic for PopupWindow.xaml
+    /// Interaction logic for StudentListWindow.xaml
     /// </summary>
     public partial class StudentListWindow : Window
     {

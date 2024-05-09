@@ -27,6 +27,7 @@ namespace loginproto
             get { return updateInfo; } 
             set {  updateInfo = value; } 
         }
+
         private async void CheckForUpdatesAsync()
         {
             var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;

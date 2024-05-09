@@ -82,6 +82,7 @@ namespace loginproto
             {
                 bool dataLoaded = await Task.Run(() =>
                 {
+
                     // Show loading text and hide list box on the UI thread
                     Application.Current.Dispatcher.Invoke(() =>
                     {

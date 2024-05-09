@@ -79,10 +79,15 @@ namespace loginproto
         //Click on the login button
         private void logInButton_Click(object sender, RoutedEventArgs e)
         {
+            loginHandler();
+        }
+
+        private void loginHandler()
+        {
             //If textbox is empty show message box
             if (string.IsNullOrEmpty(fTxtB.Text) || string.IsNullOrEmpty(lTxtB.Text))
             {
-                MessageBox.Show("Please type your full name", 
+                MessageBox.Show("Please type your full name",
                     "Incomplete Name", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 return;
@@ -100,7 +105,6 @@ namespace loginproto
                 Process.Start("explorer.exe", @"R:\");
             }
         }
-
         private async void updateTab_Click(object sender, RoutedEventArgs e)
         {
             if (_UpdateInfo?.Version != null)

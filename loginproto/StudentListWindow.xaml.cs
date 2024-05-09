@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using loginproto.Models;
 
 namespace loginproto
 {
@@ -143,7 +144,7 @@ namespace loginproto
             {
                 try
                 {
-                    Student selectedStudent = (Student)listBoxNames.SelectedItem;
+                    StudentModel selectedStudent = (StudentModel)listBoxNames.SelectedItem;
 
                     // Pass selected student information to the existing MainWindow instance
                     ((MainWindow)Application.Current.MainWindow).fTxtB.Text = 

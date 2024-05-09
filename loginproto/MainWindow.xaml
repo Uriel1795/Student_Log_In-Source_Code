@@ -76,7 +76,8 @@
                          Margin="10,0,0,0"
                          Width="150"
                          MaxLength="12"
-                         FontSize="20"/>
+                         FontSize="20"
+                         KeyDown="TextBox_KeyDown"/>
 
                     <Label Content="Last Name:"
                        Grid.Row="2"
@@ -92,7 +93,8 @@
                          Margin="10,33,0,0"
                          Width="150"
                          MaxLength="12"
-                         FontSize="20"/>
+                         FontSize="20"
+                         KeyDown="TextBox_KeyDown"/>
 
                     <!-- Login Button -->
                     <Button Content="Log In"

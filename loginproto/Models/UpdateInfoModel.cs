@@ -5,9 +5,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace loginproto
+namespace loginproto.Models
 {
-    public class UpdateInfo
+    public class UpdateInfoModel
     {
         [JsonPropertyName("version")]
         public required string Version { get; set; }

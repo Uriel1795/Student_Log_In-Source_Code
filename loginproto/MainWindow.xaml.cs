@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows;
 using System.Text.Json;
 using System.Windows.Input;
+using loginproto.Models;
 
 namespace loginproto
 {
@@ -13,7 +14,7 @@ namespace loginproto
 
     public partial class MainWindow : Window
     {
-        private UpdateInfo? updateInfo;
+        private UpdateInfoModel? updateInfo;
         public MainWindow()
         {
             InitializeComponent();
@@ -21,7 +22,7 @@ namespace loginproto
             CheckForUpdatesAsync();
         }
 
-        public UpdateInfo? _UpdateInfo
+        public UpdateInfoModel? _UpdateInfo
         { 
             get { return updateInfo; } 
             set {  updateInfo = value; } 
@@ -47,7 +48,7 @@ namespace loginproto
             }
         }
 
-        private static async Task<UpdateInfo?> GetLatestVersionInfoAsync()
+        private static async Task<UpdateInfoModel?> GetLatestVersionInfoAsync()
         {
             using (var client = new HttpClient())
             {
@@ -58,7 +59,7 @@ namespace loginproto
                     // Raw GitHub URL to update_info.json
                     json = await client.GetStringAsync("https://raw.githubusercontent.com/Uriel1795/Student-Log-In-Installer-file/main/update_info.json");
 
-                    return JsonSerializer.Deserialize<UpdateInfo>(json,
+                    return JsonSerializer.Deserialize<UpdateInfoModel>(json,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 }
                 catch (HttpRequestException)

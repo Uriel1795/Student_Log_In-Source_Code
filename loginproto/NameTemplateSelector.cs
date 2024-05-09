@@ -15,7 +15,7 @@ namespace loginproto
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-                    // Both FirstName and LastName are present
+            // Both FirstName and LastName are present
             return FullNameTemplate;
         }
     }

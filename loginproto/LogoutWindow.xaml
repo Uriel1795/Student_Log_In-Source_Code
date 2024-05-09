@@ -5,16 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:loginproto"
         mc:Ignorable="d"
-        Title="LogoutWindow" Height="150" Width="180"
-        Icon="/loginproto;component/Resources/Images/logo.ico"
+        Title="Logout" Height="150" Width="180"
+        Icon="/Resources/Images/logo.ico"
         WindowStartupLocation="Manual"
         WindowStyle="SingleBorderWindow" ResizeMode="CanMinimize"
-        Loaded="Window_Loaded"> <!-- Added Loaded event -->
+        Loaded="Window_Loaded">
+    <!-- Added Loaded event -->
     <Grid>
-        <StackPanel Margin="5">
+        <StackPanel Margin="10,10,10,14">
             <TextBlock Text="You will be logged out in:" HorizontalAlignment="Center"/>
             <TextBlock x:Name="countdownText" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
-            <Button Content="Logout Now" Width="100" Margin="0, 20, 0 , 0" HorizontalAlignment="Center" Click="LogoutButton_Click"/>
+            <Button Content="Logout Now" 
+                    Width="100" 
+                    Margin="0 9" 
+                    Background="#007ACC"
+                    Foreground="White"
+                    FontWeight="Bold"
+                    FontSize="14"
+                    HorizontalAlignment="Center" 
+                    Click="LogoutButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>

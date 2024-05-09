@@ -94,8 +94,8 @@ namespace loginproto
                 return;
             }
 
-            //Assign variable to a new instance of popupwindow passing the textboxes with the first name and last name
-            var popup = new PopupWindow(fTxtB.Text.Trim().ToString(), lTxtB.Text.Trim().ToString());
+            //Assign variable to a new instance of StudentListWndow passing the textboxes with the first name and last name
+            var popup = new StudentListWndow(fTxtB.Text.Trim().ToString(), lTxtB.Text.Trim().ToString());
 
             if (popup.Found == true)
             {

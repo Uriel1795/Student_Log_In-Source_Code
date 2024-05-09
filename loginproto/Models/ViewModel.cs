@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Threading;
 using System.Windows;
-using System;
 
 namespace loginproto.Models
 {

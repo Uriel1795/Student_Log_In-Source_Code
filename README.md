@@ -1,12 +1,12 @@
-# Login/Logout Application
+# Student Log In Application
 
 This application provides a simple login/logout interface with a countdown timer for session expiration.
 
 ## Features
 
-- Allows users to log in and logs them out automatically after a specified time.
+- Allows students to log in and logs them out automatically after a specified time.
 - Displays a countdown timer to show the remaining time before automatic logout.
-- Provides a logout button for users to manually log out before the session expires.
+- Provides a logout button for students to manually log out before the session expires.
 
 ## Installation
 
@@ -22,7 +22,7 @@ This application provides a simple login/logout interface with a countdown timer
 
 4. Run the application.
 
-## Usage - If Robot Revolution Dropbox is installed
+## Usage (If Robot Revolution Dropbox is installed)
 
 1. Launch the application.
 

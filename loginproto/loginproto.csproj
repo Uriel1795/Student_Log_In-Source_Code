@@ -12,8 +12,8 @@
     <Company>Robot Revolution</Company>
     <RepositoryUrl>https://github.com/Uriel1795/RRStudentLogInDesktop-Source-Code</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <AssemblyVersion>1.1.0.1</AssemblyVersion>
-    <FileVersion>1.1.0.1</FileVersion>
+    <AssemblyVersion>1.1.0.2</AssemblyVersion>
+    <FileVersion>1.1.0.2</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>This application provides a simple login/logout interface with a countdown timer for session expiration.</Description>
   </PropertyGroup>

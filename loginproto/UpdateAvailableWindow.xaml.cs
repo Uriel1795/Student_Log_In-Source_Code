@@ -12,6 +12,7 @@ namespace loginproto
   
     public partial class UpdateAvailableWindow : Window
     {
+
         public UpdateAvailableWindow(string updateVersion)
         {
             InitializeComponent();
@@ -30,49 +31,58 @@ namespace loginproto
 
         public async Task StartUpdateProcess()
         {
-            // URL to download the executable
-            string downloadUrl = "https://raw.githubusercontent.com/Uriel1795/Student-Log-In-Installer-file/main/v" + UpdateVersion + "/Student Log In.msi";
-
-            // Path to store the downloaded executable
-            string tempPath = Path.Combine(Path.GetTempPath(), "Student Log In.msi");
-
-            try
+            using (var cts = new CancellationTokenSource())
             {
-                using (HttpClient client = new HttpClient())
+                var token = cts.Token;
+                // URL to download the executable
+                string downloadUrl = "https://raw.githubusercontent.com/Uriel1795/Student-Log-In-Installer-file/main/v" + UpdateVersion + "/Student Log In.msi";
+
+                // Path to store the downloaded executable
+                string tempPath = Path.Combine(Path.GetTempPath(), "Student Log In.msi");
+
+                try
                 {
-                    // Download the executable file
-                    var response = await client.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);
-
-                    if (!response.IsSuccessStatusCode)
+                    using (HttpClient client = new HttpClient())
                     {
-                        MessageBox.Show("Failed to download update. Please try again later.", "Download Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        // Download the executable file
+                        var response = await client.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);
 
-                        return;
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            MessageBox.Show("Failed to download update. Please try again later.", "Download Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                            return;
+                        }
+
+                        using (var fs = new FileStream(tempPath, FileMode.Create, FileAccess.Write))
+                        {
+                            await response.Content.CopyToAsync(fs); // Write the response content to the file
+                        }
                     }
 
-                    using (var fs = new FileStream(tempPath, FileMode.Create, FileAccess.Write))
+                    // Start the downloaded executable
+                    ProcessStartInfo startInfo = new ProcessStartInfo()
                     {
-                        await response.Content.CopyToAsync(fs); // Write the response content to the file
-                    }
+                        FileName = tempPath, // Path to the downloaded executable
+                        UseShellExecute = true // Ensures the file is executed properly
+                    };
+
+                    Process.Start(startInfo); // Start the process
+
+                    // Close the current application to allow the updater to run
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        Application.Current.Shutdown();
+
+                    });   
                 }
-
-                // Start the downloaded executable
-                ProcessStartInfo startInfo = new ProcessStartInfo()
+                catch (Exception ex)
                 {
-                    FileName = tempPath, // Path to the downloaded executable
-                    UseShellExecute = true // Ensures the file is executed properly
-                };
-
-                Process.Start(startInfo); // Start the process
-
-                // Close the current application to allow the updater to run
-                Application.Current.Shutdown();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to update: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Failed to update: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
+
         private void Later_Click(object sender, RoutedEventArgs e)
         {
             SaveCheckboxState();

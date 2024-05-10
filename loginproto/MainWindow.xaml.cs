@@ -20,6 +20,8 @@ namespace loginproto
             InitializeComponent();
 
             CheckForUpdatesAsync();
+
+            Closing += MainWindow_Closing;
         }
 
         public UpdateInfoModel? _UpdateInfo
@@ -30,6 +32,9 @@ namespace loginproto
 
         private async void CheckForUpdatesAsync()
         {
+            var cts = new CancellationTokenSource();
+            var token = cts.Token;
+
             var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
             Title = "Log In - " + currentVersion;
             _UpdateInfo = await GetLatestVersionInfoAsync();
@@ -47,33 +52,40 @@ namespace loginproto
                     updateWindow.Show();
                 }
             }
+
+            cts.Cancel();
         }
 
         private static async Task<UpdateInfoModel?> GetLatestVersionInfoAsync()
         {
-            using (var client = new HttpClient())
-            {
-                string json = string.Empty;
+            using(var cts = new CancellationTokenSource())
+            { 
+                var token = cts.Token;
 
-                try
+                using (var client = new HttpClient())
                 {
-                    // Raw GitHub URL to update_info.json
-                    json = await client.GetStringAsync("https://raw.githubusercontent.com/Uriel1795/Student-Log-In-Installer-file/main/update_info.json");
+                    string json = string.Empty;
 
-                    return JsonSerializer.Deserialize<UpdateInfoModel>(json,
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                }
-                catch (HttpRequestException)
-                {
-                    MessageBox.Show("It seems you are not connected to the internet. Updates will be checked next time.", "No internet connection", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    try
+                    {
+                        // Raw GitHub URL to update_info.json
+                        json = await client.GetStringAsync("https://raw.githubusercontent.com/Uriel1795/Student-Log-In-Installer-file/main/update_info.json");
 
-                    return null;
-                }
-                catch(Exception ex) 
-                {
-                    MessageBox.Show("Error: " + ex.Message);
+                        return JsonSerializer.Deserialize<UpdateInfoModel>(json,
+                        new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    }
+                    catch (HttpRequestException)
+                    {
+                        MessageBox.Show("It seems you are not connected to the internet. Updates will be checked next time.", "No internet connection", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
-                    return null;
+                        return null;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+
+                        return null;
+                    }
                 }
             }
         }
@@ -109,6 +121,9 @@ namespace loginproto
         }
         private async void updateTab_Click(object sender, RoutedEventArgs e)
         {
+            var cts = new CancellationTokenSource();
+            var token = cts.Token;
+
             if (_UpdateInfo?.Version != null)
             {
                 var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
@@ -126,6 +141,8 @@ namespace loginproto
                     MessageBox.Show("No updates available at the moment", "No updates available", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
+
+            cts.Cancel();
         }
 
         private void aboutButton_Click(object sender, RoutedEventArgs e)
@@ -139,6 +156,11 @@ namespace loginproto
         {
             if (e.Key == Key.Enter)
                 loginHandler();
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+           Application.Current.Shutdown();
         }
     }
 }

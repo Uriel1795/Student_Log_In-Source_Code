@@ -45,4 +45,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgements
 
-- Special thanks to [DriveSettings](https://anyrest.wordpress.com/2010/06/28/mapping-network-drive-using-c/) for providing network drive mapping functionality.
+- Special thanks to [zOld](https://anyrest.wordpress.com/2010/06/28/mapping-network-drive-using-c/) for providing network drive mapping functionality.

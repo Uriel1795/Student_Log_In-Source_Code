@@ -31,13 +31,13 @@
                        FontSize="20"
                        FontWeight="Bold"
                        TextAlignment="Center"/>
-                <TextBlock Text="Version 1.1.0.0"
+                <TextBlock Text="Version 1.1.0.2"
                        FontSize="16"
                        TextAlignment="Center"/>
                 <TextBlock Text="© 2024 Robot Revolution"
                        FontSize="14"
                        TextAlignment="Center"/>
-                <TextBlock Text="Developed by: Robot Revolution"
+                <TextBlock Text="Developed by: Davin Czukoski &amp; Cristian Polanco"
                        FontSize="14"
                        TextAlignment="Center"/>
             <!-- Hyperlink for Contact Email -->

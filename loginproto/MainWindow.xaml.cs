@@ -15,6 +15,8 @@ namespace loginproto
     public partial class MainWindow : Window
     {
         private UpdateInfoModel? updateInfo;
+        private bool shutDown = true;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -114,6 +116,8 @@ namespace loginproto
             {
                 var logout = new LogoutWindow();
 
+                shutDown = false;
+
                 Application.Current.Dispatcher.Invoke(Close);
 
                 Process.Start("explorer.exe", @"R:\");
@@ -160,7 +164,8 @@ namespace loginproto
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-           Application.Current.Shutdown();
+            if(shutDown == true)
+            Application.Current.Shutdown();
         }
     }
 }

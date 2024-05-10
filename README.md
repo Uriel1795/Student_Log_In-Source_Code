@@ -13,7 +13,7 @@ This application provides a simple login/logout interface with a countdown timer
 1. Clone this repository to your local machine:
 
     ```bash
-    git clone https://github.com/yourusername/login-logout-application.git
+    git clone https://github.com/Uriel1795/Student_Log_In-Source_Code.git
     ```
 
 2. Open the solution file (`loginproto.sln`) in Visual Studio.

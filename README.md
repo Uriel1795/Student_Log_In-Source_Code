@@ -22,7 +22,7 @@ This application provides a simple login/logout interface with a countdown timer
 
 4. Run the application.
 
-## Usage
+## Usage - If Robot Revolution Dropbox is installed
 
 1. Launch the application.
 
@@ -36,7 +36,7 @@ This application provides a simple login/logout interface with a countdown timer
 
 This application uses the following dependencies:
 
-- .NET Framework (version X.X)
+- .NET Framework (version 8.0)
 - Windows Presentation Foundation (WPF)
 
 ## License

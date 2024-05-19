@@ -28,6 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dropbox.Api" Version="6.37.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\Images\logo.ico" />
     <Resource Include="Resources\Images\logo.png" />
   </ItemGroup>

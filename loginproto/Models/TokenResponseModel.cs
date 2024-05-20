@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace loginproto
+namespace loginproto.Models
 {
-    public class TokenResponse
+    public class TokenResponseModel
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }

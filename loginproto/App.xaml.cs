@@ -47,9 +47,9 @@ namespace loginproto
         {
             base.OnStartup(e);
 
-            if (DriveSettings.IsDriveMapped("R"))
+            if (DriveSettingsHelper.IsDriveMapped("R"))
             {
-                DriveSettings.DisconnectNetworkDrive("R", true);
+                DriveSettingsHelper.DisconnectNetworkDrive("R", true);
             }
 
             AccessToken = "";

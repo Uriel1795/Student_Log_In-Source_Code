@@ -14,6 +14,8 @@ using System.Globalization;
 using System.IO;
 using Newtonsoft.Json;
 using System.Windows.Media;
+using System;
+using loginproto.Helpers;
 
 namespace loginproto
 {
@@ -23,9 +25,8 @@ namespace loginproto
 
     public partial class MainWindow : Window
     {
-        private UpdateInfoModel? updateInfo;
+        private UpdateInfoModel? _UpdateInfo { get; set; }
         private bool shutDown = true;
-        private static readonly HttpClient client = new HttpClient();
 
         public MainWindow()
         {
@@ -34,105 +35,29 @@ namespace loginproto
             StartDropboxLoginProcess();
         }
 
-        public UpdateInfoModel? _UpdateInfo
-        { 
-            get { return updateInfo; } 
-            set {  updateInfo = value; } 
-        }
-
         private async void StartDropboxLoginProcess()
         {
-            string authUrl = $"https://www.dropbox.com/oauth2/authorize?client_id={App.ClientID}&response_type=code&redirect_uri={App.RedirectUri}&token_access_type=offline";
+            string authUrl = $"https://www.dropbox.com/oauth2/authorize?client_id={App.ClientID}&response_type=code&redirect_uri={App.RedirectUri}";
             Process.Start(new ProcessStartInfo(authUrl) { UseShellExecute = true });
 
-            string authCode = await PollForAuthCodeWithRetry();
+            string authCode = await DropboxHelper.PollForAuthCode();
 
             if (!string.IsNullOrEmpty(authCode))
             {
-                var tokenResponse = await GetAccessToken(authCode);
-                App.AccessToken = tokenResponse["access_token"].ToString();
+                var tokenResponse = await DropboxHelper.GetAccessToken(authCode);
+
+                App.AccessToken = tokenResponse.AccessToken;
 
                 // Update connection status ellipse and label
                 ConnectionStatusEllipse.Fill = Brushes.Green;
-                ConnectionStatusLabel.Content = "Connected";
+                ConnectionStatusLabel.Content = "Dropbox Connected";
             }
             else
             {
                 MessageBox.Show("Failed to retrieve authorization code.");
             }
         }
-
-        private async Task<string> PollForAuthCodeWithRetry(int maxRetries = 3, int delay = 1000)
-        {
-            for (int retry = 0; retry < maxRetries; retry++)
-            {
-                try
-                {
-                    var authCode = await PollForAuthCode();
-                    if (!string.IsNullOrEmpty(authCode))
-                    {
-                        return authCode;
-                    }
-                }
-                catch (HttpRequestException ex)
-                {
-                    // Log detailed information about the request and response
-                    Debug.WriteLine($"Request failed with status code {ex.StatusCode}: {ex.Message}");
-                }
-                await Task.Delay(delay);
-                delay *= 2; // Exponential backoff
-            }
-            return null;
-        }
-
-        private async Task<string> PollForAuthCode()
-        {
-            var response = await client.GetAsync(App.CodePollUri);
-            if (response.IsSuccessStatusCode)
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                if (!string.IsNullOrEmpty(responseContent))
-                {
-                    try
-                    {
-                        var jsonResponse = JObject.Parse(responseContent);
-                        string authCode = jsonResponse["code"]?.ToString();
-                        if (!string.IsNullOrEmpty(authCode))
-                        {
-                            return authCode;
-                        }
-                    }
-                    catch (JsonReaderException ex)
-                    {
-                        // Handle the exception if JSON parsing fails
-                        Debug.WriteLine($"JSON parsing error: {ex.Message}");
-                    }
-                }
-            }
-            else
-            {
-                Debug.WriteLine($"Failed to get authorization code. Status code: {response.StatusCode}");
-            }
-            return null;
-        }
-
-        private static async Task<JObject> GetAccessToken(string code)
-        {
-            var requestContent = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("code", code),
-                new KeyValuePair<string, string>("grant_type", "authorization_code"),
-                new KeyValuePair<string, string>("client_id", App.ClientID),
-                new KeyValuePair<string, string>("client_secret", App.ClientSecret),
-                new KeyValuePair<string, string>("redirect_uri", App.RedirectUri),
-            });
-
-            var response = await client.PostAsync("https://api.dropboxapi.com/oauth2/token", requestContent);
-            response.EnsureSuccessStatusCode();
-            var responseContent = await response.Content.ReadAsStringAsync();
-            return JObject.Parse(responseContent);
-        }
-
+                    
         private async void CheckForUpdatesAsync()
         {
             var cts = new CancellationTokenSource();
@@ -200,37 +125,38 @@ namespace loginproto
 
         private async void loginHandler()
         {
-            //If textbox is empty show message box
-            if (string.IsNullOrEmpty(fTxtB.Text) || string.IsNullOrEmpty(lTxtB.Text))
+            try
             {
-                MessageBox.Show("Please type your full name",
-                    "Incomplete Name", MessageBoxButton.OK, MessageBoxImage.Warning);
+                //If textbox is empty show message box
+                if (string.IsNullOrEmpty(fTxtB.Text) || string.IsNullOrEmpty(lTxtB.Text))
+                {
+                    MessageBox.Show("Please type your full name",
+                        "Incomplete Name", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-                return;
+                    return;
+                }
+
+                var db = await DropboxHelper.Connector();
+
+                string searchPattern = $"{fTxtB.Text.Trim()}.{lTxtB.Text.Trim()}";
+
+                var metadata = await db.Files.GetMetadataAsync("/code/" + searchPattern);
+
+                if (metadata.IsFolder)
+                {
+                    LocalStudentLookUp(searchPattern);
+
+                    Process.Start("explorer.exe", @"R:\");
+
+                    var logout = new LogoutWindow();
+
+                    Application.Current.Dispatcher.Invoke(Close);
+                }
             }
-
-            var dbx = new DropboxClient(App.AccessToken);
-
-            var accountInfo = await dbx.Users.GetCurrentAccountAsync();
-
-            var db = dbx.WithPathRoot(new PathRoot.NamespaceId(accountInfo.RootInfo.RootNamespaceId));
-
-            string searchPattern = fTxtB.Text.Trim().ToString() + "." + lTxtB.Text.Trim().ToString();
-
-            //MessageBox.Show(searchPattern);
-            //Assign variable to a new instance of StudentListWndow passing the textboxes with the first name and last name
-
-            var metadata = await db.Files.GetMetadataAsync("/code/" + searchPattern);
-
-            if (metadata.IsFolder)
+            catch(ApiException<Dropbox.Api.Files.GetMetadataError>)
             {
-                var logout = new LogoutWindow();
-
-                LocalStudentLookUp(searchPattern);
-
-                Application.Current.Dispatcher.Invoke(Close);
-
-                Process.Start("explorer.exe", @"R:\");
+                MessageBox.Show("Student could not be found, make sure: your name is typed correctly or have an account.",
+                    "Login Unsuccessful", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -252,7 +178,7 @@ namespace loginproto
                         Environment.UserName + "\\Robot Revolution Dropbox\\code\\" +
                         searchPattern;
 
-                    DriveSettings.MapNetworkDrive("R", mapPath);
+                    DriveSettingsHelper.MapNetworkDrive("R", mapPath);
 
                     var result = MessageBox.Show("Log in successful", "Success", MessageBoxButton.OK,
                          MessageBoxImage.Information);
@@ -301,7 +227,7 @@ namespace loginproto
             aboutWindow.Show();
         }
 
-        private void TextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 loginHandler();

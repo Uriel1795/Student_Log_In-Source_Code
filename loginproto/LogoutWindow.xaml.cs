@@ -78,9 +78,9 @@ namespace loginproto
 
         private void DisconnectMappedDrive()
         {
-            DriveSettings.DisconnectNetworkDrive("R", true);
+            DriveSettingsHelper.DisconnectNetworkDrive("R", true);
 
-            if(DriveSettings.IsDriveMapped("R") != true)
+            if(DriveSettingsHelper.IsDriveMapped("R") != true)
             {
                 System.Media.SystemSounds.Exclamation.Play();
             }

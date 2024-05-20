@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-public class DriveSettings
+public class DriveSettingsHelper
 {
     private enum ResourceScope
     {

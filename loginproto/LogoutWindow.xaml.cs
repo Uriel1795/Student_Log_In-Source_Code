@@ -1,5 +1,6 @@
 ﻿using System.Timers;
 using System.Windows;
+using loginproto.Helpers;
 using Timer = System.Timers.Timer;
 
 namespace loginproto
@@ -11,7 +12,7 @@ namespace loginproto
     {
         private Timer logoutTimer;
         private DateTime timerStartTime;
-        private int initialTimerDurationInSeconds = 105 * 60;
+        private int initialTimerDurationInSeconds;
         private int remainingTimeInSeconds;
 
 
@@ -19,6 +20,8 @@ namespace loginproto
         {
             InitializeComponent();
             timerStartTime = DateTime.Now;
+
+            initialTimerDurationInSeconds = CurrentSessionTimer.IsSummerCamp(timerStartTime);
 
             // Start the logout timer
             StartLogoutTimer();

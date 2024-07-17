@@ -31,7 +31,7 @@
                        FontSize="20"
                        FontWeight="Bold"
                        TextAlignment="Center"/>
-                <TextBlock Text="Version 1.1.0.2"
+                <TextBlock Text="Version 1.1.0.3"
                        FontSize="16"
                        TextAlignment="Center"/>
                 <TextBlock Text="© 2024 Robot Revolution"
@@ -43,10 +43,7 @@
             <!-- Hyperlink for Contact Email -->
             <TextBlock TextAlignment="Center">
                 For support, contact: 
-                <Hyperlink NavigateUri="mailto:admin@robotrevolution.net"
-                           RequestNavigate="Hyperlink_RequestNavigate"> <!-- Click event handler -->
-                    Robot Revolution
-                </Hyperlink>
+                Cristian or Davin
             </TextBlock>
 
             <!-- Close Button -->
